@@ -11,13 +11,9 @@ namespace CSharp5.Models
         public string Email { get; set; }
         public string Password { get; set; }
         public DateTime NgaySinh { get; set; }
-        public bool TrangThai { get; set; }
         public string SDT { get; set; }
 
 
-        public int Id_phanquyen { get; set; }
-        public PhanQuyen phanQuyen { get; set; }
-        public List<DiaChi> diaChis { get; set; }
-        public List<HoaDon> hoaDons { get; set; }
+        
     }
 }
