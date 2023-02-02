@@ -4,14 +4,16 @@ using CSharp5.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CSharp5.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230202165138_AddTableGioHangvarelation")]
+    partial class AddTableGioHangvarelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,11 +57,14 @@ namespace CSharp5.Migrations
                     b.Property<int>("SoLuong")
                         .HasColumnType("int");
 
+                    b.Property<int?>("sanPhamChiTietId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Id_nguoidung");
 
-                    b.HasIndex("Id_spct");
+                    b.HasIndex("sanPhamChiTietId");
 
                     b.ToTable("gioHangs");
                 });
@@ -366,10 +371,8 @@ namespace CSharp5.Migrations
                         .IsRequired();
 
                     b.HasOne("CSharp5.Models.SanPhamChiTiet", "sanPhamChiTiet")
-                        .WithMany("gioHangs")
-                        .HasForeignKey("Id_spct")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany()
+                        .HasForeignKey("sanPhamChiTietId");
 
                     b.Navigation("nguoiDung");
 
@@ -527,8 +530,6 @@ namespace CSharp5.Migrations
 
             modelBuilder.Entity("CSharp5.Models.SanPhamChiTiet", b =>
                 {
-                    b.Navigation("gioHangs");
-
                     b.Navigation("hinhAnhSPs");
 
                     b.Navigation("hoaDons");

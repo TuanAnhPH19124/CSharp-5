@@ -21,6 +21,7 @@ namespace CSharp5.Models
         public List<Size> Sizes { get; set; }
         public List<NhaCungCap> nhaCungCaps { get; set; }
         public List<SPCT_Mau> sPCT_Maus { get; set; }
+        public List<GioHang> gioHangs { get; set; }
 
     }
 }
