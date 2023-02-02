@@ -13,7 +13,7 @@ namespace CSharp5.Models
         public DateTime NgaySinh { get; set; }
         public string SDT { get; set; }
 
+        public List<DiaChi> diaChis { get; set; }
 
-        
     }
 }

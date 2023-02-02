@@ -4,14 +4,16 @@ using CSharp5.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CSharp5.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230202083351_AddRelationofHoadonvaSPCT")]
+    partial class AddRelationofHoadonvaSPCT
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,9 +54,12 @@ namespace CSharp5.Migrations
                     b.Property<string>("Link")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("sanPhamChiTietId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Id_SPCT");
+                    b.HasIndex("sanPhamChiTietId");
 
                     b.ToTable("hinhAnhSPs");
                 });
@@ -91,24 +96,6 @@ namespace CSharp5.Migrations
                     b.HasIndex("Id_spct");
 
                     b.ToTable("hoaDons");
-                });
-
-            modelBuilder.Entity("CSharp5.Models.Mau", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("MaHex")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("MaRGB")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("maus");
                 });
 
             modelBuilder.Entity("CSharp5.Models.NguoiDung", b =>
@@ -151,9 +138,12 @@ namespace CSharp5.Migrations
                     b.Property<string>("Ten")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("sanPhamChiTietId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Id_SPCT");
+                    b.HasIndex("sanPhamChiTietId");
 
                     b.ToTable("nhaCungCaps");
                 });
@@ -202,21 +192,6 @@ namespace CSharp5.Migrations
                     b.ToTable("quanLis");
                 });
 
-            modelBuilder.Entity("CSharp5.Models.SPCT_Mau", b =>
-                {
-                    b.Property<int>("Id_mau")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Id_spct")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id_mau", "Id_spct");
-
-                    b.HasIndex("Id_spct");
-
-                    b.ToTable("sPCT_Maus");
-                });
-
             modelBuilder.Entity("CSharp5.Models.SanPham", b =>
                 {
                     b.Property<int>("Id")
@@ -263,9 +238,12 @@ namespace CSharp5.Migrations
                     b.Property<bool>("TrangThai")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("sanPhamId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("Id_SP");
+                    b.HasIndex("sanPhamId");
 
                     b.ToTable("sanPhamChiTiets");
                 });
@@ -280,12 +258,15 @@ namespace CSharp5.Migrations
                     b.Property<int>("Id_SPCT")
                         .HasColumnType("int");
 
+                    b.Property<int?>("sanPhamChiTietId")
+                        .HasColumnType("int");
+
                     b.Property<int>("size")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id_SPCT");
+                    b.HasIndex("sanPhamChiTietId");
 
                     b.ToTable("sizes");
                 });
@@ -336,9 +317,7 @@ namespace CSharp5.Migrations
                 {
                     b.HasOne("CSharp5.Models.SanPhamChiTiet", "sanPhamChiTiet")
                         .WithMany("hinhAnhSPs")
-                        .HasForeignKey("Id_SPCT")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("sanPhamChiTietId");
 
                     b.Navigation("sanPhamChiTiet");
                 });
@@ -366,9 +345,7 @@ namespace CSharp5.Migrations
                 {
                     b.HasOne("CSharp5.Models.SanPhamChiTiet", "sanPhamChiTiet")
                         .WithMany("nhaCungCaps")
-                        .HasForeignKey("Id_SPCT")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("sanPhamChiTietId");
 
                     b.Navigation("sanPhamChiTiet");
                 });
@@ -384,32 +361,11 @@ namespace CSharp5.Migrations
                     b.Navigation("phanQuyen");
                 });
 
-            modelBuilder.Entity("CSharp5.Models.SPCT_Mau", b =>
-                {
-                    b.HasOne("CSharp5.Models.Mau", "mau")
-                        .WithMany("sPCT_Maus")
-                        .HasForeignKey("Id_mau")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CSharp5.Models.SanPhamChiTiet", "sanPhamChiTiet")
-                        .WithMany("sPCT_Maus")
-                        .HasForeignKey("Id_spct")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("mau");
-
-                    b.Navigation("sanPhamChiTiet");
-                });
-
             modelBuilder.Entity("CSharp5.Models.SanPhamChiTiet", b =>
                 {
                     b.HasOne("CSharp5.Models.SanPham", "sanPham")
                         .WithMany("sanPhamChiTiets")
-                        .HasForeignKey("Id_SP")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("sanPhamId");
 
                     b.Navigation("sanPham");
                 });
@@ -418,9 +374,7 @@ namespace CSharp5.Migrations
                 {
                     b.HasOne("CSharp5.Models.SanPhamChiTiet", "sanPhamChiTiet")
                         .WithMany("Sizes")
-                        .HasForeignKey("Id_SPCT")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("sanPhamChiTietId");
 
                     b.Navigation("sanPhamChiTiet");
                 });
@@ -454,11 +408,6 @@ namespace CSharp5.Migrations
                     b.Navigation("trangThais");
                 });
 
-            modelBuilder.Entity("CSharp5.Models.Mau", b =>
-                {
-                    b.Navigation("sPCT_Maus");
-                });
-
             modelBuilder.Entity("CSharp5.Models.NguoiDung", b =>
                 {
                     b.Navigation("diaChis");
@@ -488,8 +437,6 @@ namespace CSharp5.Migrations
                     b.Navigation("nhaCungCaps");
 
                     b.Navigation("Sizes");
-
-                    b.Navigation("sPCT_Maus");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace CSharp5.Models
 {
@@ -6,13 +7,19 @@ namespace CSharp5.Models
     {
         public int Id { get; set; }
         public DateTime NgayThanhToan { get; set; } = DateTime.Now;
-
         public string HinhThucThanhToan { get; set; }
         public string GhiChu { get; set; }
-        public bool TrangThai { get; set; }
+        public int Id_diachi { get; set; }
+        public DiaChi diaChi { get; set; }
 
-        public int Id_Nguoidung { get; set; }
-        public NguoiDung nguoiDung { get; set; }
+        public double GiaSP { get; set; }
+        public int Id_spct { get; set; }
+        public SanPhamChiTiet sanPhamChiTiet { get; set; }
+
+        public List<TrangThai> trangThais { get; set; }
+
+        
+
 
     }
 }
