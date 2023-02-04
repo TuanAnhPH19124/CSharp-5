@@ -14,6 +14,6 @@ namespace CSharp5.Models
         public string SDT { get; set; }
 
         public List<DiaChi> diaChis { get; set; }
-
+        public List<GioHang> gioHangs { get; set; }
     }
 }

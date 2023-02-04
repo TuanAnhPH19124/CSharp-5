@@ -25,6 +25,10 @@ namespace CSharp5.Data
             modelBuilder.Entity<HinhAnhSP>().HasOne(p => p.sanPhamChiTiet).WithMany(n => n.hinhAnhSPs).HasForeignKey(p => p.Id_SPCT);
             modelBuilder.Entity<Size>().HasOne(p => p.sanPhamChiTiet).WithMany(n => n.Sizes).HasForeignKey(p => p.Id_SPCT);
             modelBuilder.Entity<NhaCungCap>().HasOne(p => p.sanPhamChiTiet).WithMany(n => n.nhaCungCaps).HasForeignKey(p => p.Id_SPCT);
+            modelBuilder.Entity<GioHang>().HasOne(p => p.nguoiDung).WithMany(n => n.gioHangs).HasForeignKey(p => p.Id_nguoidung);
+            modelBuilder.Entity<GioHang>().HasOne(p => p.sanPhamChiTiet).WithMany(n => n.gioHangs).HasForeignKey(p => p.Id_spct);
+            modelBuilder.Entity<HoaDon>().HasOne(p => p.giamGiaHD).WithMany(n => n.hoaDons).HasForeignKey(p => p.Id_GiamGia);
+            modelBuilder.Entity<SanPhamChiTiet>().HasOne(p => p.giamGiaSP).WithMany(n => n.sanPhamChiTiets).HasForeignKey(p => p.Id_GiamGia);
         }   
 
         public DbSet<NguoiDung> NguoiDungs { get; set; }
@@ -40,6 +44,9 @@ namespace CSharp5.Data
         public DbSet<QuanLi> quanLis { get; set; }
         public DbSet<Mau> maus { get; set; }
         public DbSet<SPCT_Mau> sPCT_Maus { get; set; }
+        public DbSet<GioHang> gioHangs { get; set; }
+        public DbSet<GiamGiaHD> giamGiaHDs { get; set; }
+        public DbSet<GiamGiaSP> giamGiaSPs { get; set; }
 
 
     }

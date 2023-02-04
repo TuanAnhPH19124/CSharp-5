@@ -4,14 +4,16 @@ using CSharp5.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CSharp5.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230203051746_AddTableGiamGiaHDvaRelation")]
+    partial class AddTableGiamGiaHDvaRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,28 +71,7 @@ namespace CSharp5.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("giamGiaHDs");
-                });
-
-            modelBuilder.Entity("CSharp5.Models.GiamGiaSP", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("GiaTri")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("NgayBatDau")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("NgayKetThuc")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("giamGiaSPs");
+                    b.ToTable("GiamGiaHD");
                 });
 
             modelBuilder.Entity("CSharp5.Models.GioHang", b =>
@@ -332,9 +313,6 @@ namespace CSharp5.Migrations
                     b.Property<double>("GianBan")
                         .HasColumnType("float");
 
-                    b.Property<int>("Id_GiamGia")
-                        .HasColumnType("int");
-
                     b.Property<int>("Id_SP")
                         .HasColumnType("int");
 
@@ -351,8 +329,6 @@ namespace CSharp5.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Id_GiamGia");
 
                     b.HasIndex("Id_SP");
 
@@ -521,19 +497,11 @@ namespace CSharp5.Migrations
 
             modelBuilder.Entity("CSharp5.Models.SanPhamChiTiet", b =>
                 {
-                    b.HasOne("CSharp5.Models.GiamGiaSP", "giamGiaSP")
-                        .WithMany("sanPhamChiTiets")
-                        .HasForeignKey("Id_GiamGia")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CSharp5.Models.SanPham", "sanPham")
                         .WithMany("sanPhamChiTiets")
                         .HasForeignKey("Id_SP")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("giamGiaSP");
 
                     b.Navigation("sanPham");
                 });
@@ -576,11 +544,6 @@ namespace CSharp5.Migrations
             modelBuilder.Entity("CSharp5.Models.GiamGiaHD", b =>
                 {
                     b.Navigation("hoaDons");
-                });
-
-            modelBuilder.Entity("CSharp5.Models.GiamGiaSP", b =>
-                {
-                    b.Navigation("sanPhamChiTiets");
                 });
 
             modelBuilder.Entity("CSharp5.Models.HoaDon", b =>
