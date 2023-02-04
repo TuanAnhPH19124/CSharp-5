@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CSharp5.Data;
 using CSharp5.Models;
+using CSharp5.IRepositories;
 
 namespace CSharp5.Controllers
 {
@@ -14,25 +15,26 @@ namespace CSharp5.Controllers
     [ApiController]
     public class DiaChisController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IAllRepositories<DiaChi> AllRepositories;
 
-        public DiaChisController(DataContext context)
+
+        public DiaChisController(IAllRepositories<DiaChi> context)
         {
-            _context = context;
+            AllRepositories = context;
         }
 
         // GET: api/DiaChis
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DiaChi>>> GetdiaChis()
         {
-            return await _context.diaChis.ToListAsync();
+            return await AllRepositories.AddManyAsync(List<DiaChi>);
         }
 
         // GET: api/DiaChis/5
         [HttpGet("{id}")]
         public async Task<ActionResult<DiaChi>> GetDiaChi(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
+            var diaChi = await AllRepositories.diaChis.FindAsync(id);
 
             if (diaChi == null)
             {
@@ -52,11 +54,11 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(diaChi).State = EntityState.Modified;
+            AllRepositories.Entry(diaChi).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await AllRepositories.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,8 +80,8 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<DiaChi>> PostDiaChi(DiaChi diaChi)
         {
-            _context.diaChis.Add(diaChi);
-            await _context.SaveChangesAsync();
+            AllRepositories.diaChis.Add(diaChi);
+            await AllRepositories.SaveChangesAsync();
 
             return CreatedAtAction("GetDiaChi", new { id = diaChi.Id }, diaChi);
         }
@@ -88,21 +90,22 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDiaChi(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
+            var diaChi = await AllRepositories.diaChis.FindAsync(id);
             if (diaChi == null)
             {
                 return NotFound();
             }
 
-            _context.diaChis.Remove(diaChi);
-            await _context.SaveChangesAsync();
+            AllRepositories.diaChis.Remove(diaChi);
+            await AllRepositories.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool DiaChiExists(int id)
         {
-            return _context.diaChis.Any(e => e.Id == id);
+            return AllRepositories.diaChis.Any(e => e.Id == id);
         }
+
     }
 }

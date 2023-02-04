@@ -1,4 +1,7 @@
 using CSharp5.Data;
+using CSharp5.IRepositories;
+using CSharp5.Models;
+using CSharp5.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -29,6 +32,7 @@ namespace CSharp5
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+            services.AddScoped<IAllRepositories<NguoiDung>, AllRepositories<NguoiDung>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
