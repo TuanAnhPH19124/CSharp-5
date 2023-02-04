@@ -12,47 +12,47 @@ namespace CSharp5.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DiaChisController : ControllerBase
+    public class GiamGiaSPsController : ControllerBase
     {
         private readonly DataContext _context;
 
-        public DiaChisController(DataContext context)
+        public GiamGiaSPsController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: api/DiaChis
+        // GET: api/GiamGiaSPs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DiaChi>>> GetdiaChis()
+        public async Task<ActionResult<IEnumerable<GiamGiaSP>>> GetgiamGiaSPs()
         {
-            return await _context.diaChis.ToListAsync();
+            return await _context.giamGiaSPs.ToListAsync();
         }
 
-        // GET: api/DiaChis/5
+        // GET: api/GiamGiaSPs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DiaChi>> GetDiaChi(int id)
+        public async Task<ActionResult<GiamGiaSP>> GetGiamGiaSP(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
+            var giamGiaSP = await _context.giamGiaSPs.FindAsync(id);
 
-            if (diaChi == null)
+            if (giamGiaSP == null)
             {
                 return NotFound();
             }
 
-            return diaChi;
+            return giamGiaSP;
         }
 
-        // PUT: api/DiaChis/5
+        // PUT: api/GiamGiaSPs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDiaChi(int id, DiaChi diaChi)
+        public async Task<IActionResult> PutGiamGiaSP(int id, GiamGiaSP giamGiaSP)
         {
-            if (id != diaChi.Id)
+            if (id != giamGiaSP.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(diaChi).State = EntityState.Modified;
+            _context.Entry(giamGiaSP).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace CSharp5.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DiaChiExists(id))
+                if (!GiamGiaSPExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace CSharp5.Controllers
             return NoContent();
         }
 
-        // POST: api/DiaChis
+        // POST: api/GiamGiaSPs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DiaChi>> PostDiaChi(DiaChi diaChi)
+        public async Task<ActionResult<GiamGiaSP>> PostGiamGiaSP(GiamGiaSP giamGiaSP)
         {
-            _context.diaChis.Add(diaChi);
+            _context.giamGiaSPs.Add(giamGiaSP);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDiaChi", new { id = diaChi.Id }, diaChi);
+            return CreatedAtAction("GetGiamGiaSP", new { id = giamGiaSP.Id }, giamGiaSP);
         }
 
-        // DELETE: api/DiaChis/5
+        // DELETE: api/GiamGiaSPs/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDiaChi(int id)
+        public async Task<IActionResult> DeleteGiamGiaSP(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
-            if (diaChi == null)
+            var giamGiaSP = await _context.giamGiaSPs.FindAsync(id);
+            if (giamGiaSP == null)
             {
                 return NotFound();
             }
 
-            _context.diaChis.Remove(diaChi);
+            _context.giamGiaSPs.Remove(giamGiaSP);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DiaChiExists(int id)
+        private bool GiamGiaSPExists(int id)
         {
-            return _context.diaChis.Any(e => e.Id == id);
+            return _context.giamGiaSPs.Any(e => e.Id == id);
         }
     }
 }
