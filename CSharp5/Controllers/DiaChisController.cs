@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CSharp5.Data;
-using CSharp5.Models;
+using DAL.Data;
+using DAL.Models;
 
 namespace CSharp5.Controllers
 {
@@ -14,9 +14,9 @@ namespace CSharp5.Controllers
     [ApiController]
     public class DiaChisController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly DbContexts _context;
 
-        public DiaChisController(DataContext context)
+        public DiaChisController(DbContexts context)
         {
             _context = context;
         }
