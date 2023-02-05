@@ -1,22 +1,14 @@
-using DAL.Data;
-using DAL.IRepositories;
-using DAL.Models;
-using DAL.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CSharp5
+namespace UI
 {
     public class Startup
     {
@@ -30,9 +22,7 @@ namespace CSharp5
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
-            services.AddControllers();
-            services.AddScoped<IBaseRepositories<NguoiDung>, BaseRepositories<NguoiDung>>();
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,8 +32,11 @@ namespace CSharp5
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+            }
+            app.UseStaticFiles();
 
             app.UseRouting();
 
@@ -51,7 +44,9 @@ namespace CSharp5
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using CSharp5.Data;
-using CSharp5.Models;
+using DAL.Data;
+using DAL.Models;
+using DAL.IRepositories;
 
 namespace CSharp5.Controllers
 {
@@ -14,26 +15,30 @@ namespace CSharp5.Controllers
     [ApiController]
     public class NguoiDungsController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly IBaseRepositories<NguoiDung> _service;
 
-        public NguoiDungsController(DataContext context)
+        public NguoiDungsController(IBaseRepositories<NguoiDung> service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: api/NguoiDungs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<NguoiDung>>> GetNguoiDungs()
+        public async Task<ActionResult<NguoiDung>> GetNguoiDungs()
         {
-            return await _context.NguoiDungs.ToListAsync();
+            var nguoi = new NguoiDung()
+            {
+                Ten = "dsadsa"
+            };
+            return nguoi;
         }
 
         // GET: api/NguoiDungs/5
         [HttpGet("{id}")]
         public async Task<ActionResult<NguoiDung>> GetNguoiDung(int id)
         {
-            var nguoiDung = await _context.NguoiDungs.FindAsync(id);
-
+            //var nguoiDung = await _context.NguoiDungs.FindAsync(id);
+            var nguoiDung = new NguoiDung();
             if (nguoiDung == null)
             {
                 return NotFound();
@@ -52,11 +57,11 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(nguoiDung).State = EntityState.Modified;
+            //_context.Entry(nguoiDung).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                //await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,8 +83,8 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<NguoiDung>> PostNguoiDung(NguoiDung nguoiDung)
         {
-            _context.NguoiDungs.Add(nguoiDung);
-            await _context.SaveChangesAsync();
+            //_context.NguoiDungs.Add(nguoiDung);
+            //await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetNguoiDung", new { id = nguoiDung.Id }, nguoiDung);
         }
@@ -88,21 +93,22 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNguoiDung(int id)
         {
-            var nguoiDung = await _context.NguoiDungs.FindAsync(id);
-            if (nguoiDung == null)
-            {
-                return NotFound();
-            }
+            //var nguoiDung = await _context.NguoiDungs.FindAsync(id);
+            //if (nguoiDung == null)
+            //{
+            //    return NotFound();
+            //}
 
-            _context.NguoiDungs.Remove(nguoiDung);
-            await _context.SaveChangesAsync();
+            //_context.NguoiDungs.Remove(nguoiDung);
+            //await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
         private bool NguoiDungExists(int id)
         {
-            return _context.NguoiDungs.Any(e => e.Id == id);
+            //return _context.NguoiDungs.Any(e => e.Id == id);
+            return true;
         }
     }
 }
