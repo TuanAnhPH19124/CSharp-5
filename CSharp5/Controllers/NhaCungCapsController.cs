@@ -12,47 +12,47 @@ namespace CSharp5.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DiaChisController : ControllerBase
+    public class NhaCungCapsController : ControllerBase
     {
         private readonly DbContexts _context;
 
-        public DiaChisController(DbContexts context)
+        public NhaCungCapsController(DbContexts context)
         {
             _context = context;
         }
 
-        // GET: api/DiaChis
+        // GET: api/NhaCungCaps
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DiaChi>>> GetdiaChis()
+        public async Task<ActionResult<IEnumerable<NhaCungCap>>> GetnhaCungCaps()
         {
-            return await _context.diaChis.ToListAsync();
+            return await _context.nhaCungCaps.ToListAsync();
         }
 
-        // GET: api/DiaChis/5
+        // GET: api/NhaCungCaps/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DiaChi>> GetDiaChi(int id)
+        public async Task<ActionResult<NhaCungCap>> GetNhaCungCap(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
+            var nhaCungCap = await _context.nhaCungCaps.FindAsync(id);
 
-            if (diaChi == null)
+            if (nhaCungCap == null)
             {
                 return NotFound();
             }
 
-            return diaChi;
+            return nhaCungCap;
         }
 
-        // PUT: api/DiaChis/5
+        // PUT: api/NhaCungCaps/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDiaChi(int id, DiaChi diaChi)
+        public async Task<IActionResult> PutNhaCungCap(int id, NhaCungCap nhaCungCap)
         {
-            if (id != diaChi.Id)
+            if (id != nhaCungCap.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(diaChi).State = EntityState.Modified;
+            _context.Entry(nhaCungCap).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace CSharp5.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DiaChiExists(id))
+                if (!NhaCungCapExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,36 @@ namespace CSharp5.Controllers
             return NoContent();
         }
 
-        // POST: api/DiaChis
+        // POST: api/NhaCungCaps
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DiaChi>> PostDiaChi(DiaChi diaChi)
+        public async Task<ActionResult<NhaCungCap>> PostNhaCungCap(NhaCungCap nhaCungCap)
         {
-            _context.diaChis.Add(diaChi);
+            _context.nhaCungCaps.Add(nhaCungCap);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDiaChi", new { id = diaChi.Id }, diaChi);
+            return CreatedAtAction("GetNhaCungCap", new { id = nhaCungCap.Id }, nhaCungCap);
         }
 
-        // DELETE: api/DiaChis/5
+        // DELETE: api/NhaCungCaps/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDiaChi(int id)
+        public async Task<IActionResult> DeleteNhaCungCap(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
-            if (diaChi == null)
+            var nhaCungCap = await _context.nhaCungCaps.FindAsync(id);
+            if (nhaCungCap == null)
             {
                 return NotFound();
             }
 
-            _context.diaChis.Remove(diaChi);
+            _context.nhaCungCaps.Remove(nhaCungCap);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DiaChiExists(int id)
+        private bool NhaCungCapExists(int id)
         {
-            return _context.diaChis.Any(e => e.Id == id);
-        }       
-        
+            return _context.nhaCungCaps.Any(e => e.Id == id);
+        }
     }
 }

@@ -12,47 +12,47 @@ namespace CSharp5.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DiaChisController : ControllerBase
+    public class SanPhamsController : ControllerBase
     {
         private readonly DbContexts _context;
 
-        public DiaChisController(DbContexts context)
+        public SanPhamsController(DbContexts context)
         {
             _context = context;
         }
 
-        // GET: api/DiaChis
+        // GET: api/SanPhams
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DiaChi>>> GetdiaChis()
+        public async Task<ActionResult<IEnumerable<SanPham>>> GetsanPhams()
         {
-            return await _context.diaChis.ToListAsync();
+            return await _context.sanPhams.ToListAsync();
         }
 
-        // GET: api/DiaChis/5
+        // GET: api/SanPhams/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DiaChi>> GetDiaChi(int id)
+        public async Task<ActionResult<SanPham>> GetSanPham(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
+            var sanPham = await _context.sanPhams.FindAsync(id);
 
-            if (diaChi == null)
+            if (sanPham == null)
             {
                 return NotFound();
             }
 
-            return diaChi;
+            return sanPham;
         }
 
-        // PUT: api/DiaChis/5
+        // PUT: api/SanPhams/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDiaChi(int id, DiaChi diaChi)
+        public async Task<IActionResult> PutSanPham(int id, SanPham sanPham)
         {
-            if (id != diaChi.Id)
+            if (id != sanPham.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(diaChi).State = EntityState.Modified;
+            _context.Entry(sanPham).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace CSharp5.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DiaChiExists(id))
+                if (!SanPhamExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,36 @@ namespace CSharp5.Controllers
             return NoContent();
         }
 
-        // POST: api/DiaChis
+        // POST: api/SanPhams
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DiaChi>> PostDiaChi(DiaChi diaChi)
+        public async Task<ActionResult<SanPham>> PostSanPham(SanPham sanPham)
         {
-            _context.diaChis.Add(diaChi);
+            _context.sanPhams.Add(sanPham);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDiaChi", new { id = diaChi.Id }, diaChi);
+            return CreatedAtAction("GetSanPham", new { id = sanPham.Id }, sanPham);
         }
 
-        // DELETE: api/DiaChis/5
+        // DELETE: api/SanPhams/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDiaChi(int id)
+        public async Task<IActionResult> DeleteSanPham(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
-            if (diaChi == null)
+            var sanPham = await _context.sanPhams.FindAsync(id);
+            if (sanPham == null)
             {
                 return NotFound();
             }
 
-            _context.diaChis.Remove(diaChi);
+            _context.sanPhams.Remove(sanPham);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DiaChiExists(int id)
+        private bool SanPhamExists(int id)
         {
-            return _context.diaChis.Any(e => e.Id == id);
-        }       
-        
+            return _context.sanPhams.Any(e => e.Id == id);
+        }
     }
 }
