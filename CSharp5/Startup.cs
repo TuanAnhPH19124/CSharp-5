@@ -1,9 +1,7 @@
 using DAL.Base;
 using DAL.Data;
-using DAL.IRepositories;
 using DAL.IServices;
 using DAL.Models;
-using DAL.Repositories;
 using DAL.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

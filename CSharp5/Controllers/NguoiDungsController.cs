@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Data;
 using DAL.Models;
-using DAL.IRepositories;
+
 using DAL.IServices;
 
 namespace CSharp5.Controllers
