@@ -1,7 +1,10 @@
+using DAL.Base;
 using DAL.Data;
 using DAL.IRepositories;
+using DAL.IServices;
 using DAL.Models;
 using DAL.Repositories;
+using DAL.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,7 +35,8 @@ namespace CSharp5
         {
             
             services.AddControllers();
-            services.AddScoped<IBaseRepositories<NguoiDung>, BaseRepositories<NguoiDung>>();
+            services.AddDbContext<DbContexts>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<INguoiDungService, NguoiDungService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

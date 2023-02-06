@@ -12,47 +12,47 @@ namespace CSharp5.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DiaChisController : ControllerBase
+    public class PhanQuyensController : ControllerBase
     {
         private readonly DbContexts _context;
 
-        public DiaChisController(DbContexts context)
+        public PhanQuyensController(DbContexts context)
         {
             _context = context;
         }
 
-        // GET: api/DiaChis
+        // GET: api/PhanQuyens
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DiaChi>>> GetdiaChis()
+        public async Task<ActionResult<IEnumerable<PhanQuyen>>> GetphanQuyens()
         {
-            return await _context.diaChis.ToListAsync();
+            return await _context.phanQuyens.ToListAsync();
         }
 
-        // GET: api/DiaChis/5
+        // GET: api/PhanQuyens/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DiaChi>> GetDiaChi(int id)
+        public async Task<ActionResult<PhanQuyen>> GetPhanQuyen(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
+            var phanQuyen = await _context.phanQuyens.FindAsync(id);
 
-            if (diaChi == null)
+            if (phanQuyen == null)
             {
                 return NotFound();
             }
 
-            return diaChi;
+            return phanQuyen;
         }
 
-        // PUT: api/DiaChis/5
+        // PUT: api/PhanQuyens/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDiaChi(int id, DiaChi diaChi)
+        public async Task<IActionResult> PutPhanQuyen(int id, PhanQuyen phanQuyen)
         {
-            if (id != diaChi.Id)
+            if (id != phanQuyen.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(diaChi).State = EntityState.Modified;
+            _context.Entry(phanQuyen).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace CSharp5.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DiaChiExists(id))
+                if (!PhanQuyenExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,36 @@ namespace CSharp5.Controllers
             return NoContent();
         }
 
-        // POST: api/DiaChis
+        // POST: api/PhanQuyens
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DiaChi>> PostDiaChi(DiaChi diaChi)
+        public async Task<ActionResult<PhanQuyen>> PostPhanQuyen(PhanQuyen phanQuyen)
         {
-            _context.diaChis.Add(diaChi);
+            _context.phanQuyens.Add(phanQuyen);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDiaChi", new { id = diaChi.Id }, diaChi);
+            return CreatedAtAction("GetPhanQuyen", new { id = phanQuyen.Id }, phanQuyen);
         }
 
-        // DELETE: api/DiaChis/5
+        // DELETE: api/PhanQuyens/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDiaChi(int id)
+        public async Task<IActionResult> DeletePhanQuyen(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
-            if (diaChi == null)
+            var phanQuyen = await _context.phanQuyens.FindAsync(id);
+            if (phanQuyen == null)
             {
                 return NotFound();
             }
 
-            _context.diaChis.Remove(diaChi);
+            _context.phanQuyens.Remove(phanQuyen);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DiaChiExists(int id)
+        private bool PhanQuyenExists(int id)
         {
-            return _context.diaChis.Any(e => e.Id == id);
-        }       
-        
+            return _context.phanQuyens.Any(e => e.Id == id);
+        }
     }
 }

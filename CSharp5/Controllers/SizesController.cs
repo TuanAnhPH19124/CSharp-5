@@ -12,47 +12,47 @@ namespace CSharp5.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DiaChisController : ControllerBase
+    public class SizesController : ControllerBase
     {
         private readonly DbContexts _context;
 
-        public DiaChisController(DbContexts context)
+        public SizesController(DbContexts context)
         {
             _context = context;
         }
 
-        // GET: api/DiaChis
+        // GET: api/Sizes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DiaChi>>> GetdiaChis()
+        public async Task<ActionResult<IEnumerable<Size>>> Getsizes()
         {
-            return await _context.diaChis.ToListAsync();
+            return await _context.sizes.ToListAsync();
         }
 
-        // GET: api/DiaChis/5
+        // GET: api/Sizes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DiaChi>> GetDiaChi(int id)
+        public async Task<ActionResult<Size>> GetSize(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
+            var size = await _context.sizes.FindAsync(id);
 
-            if (diaChi == null)
+            if (size == null)
             {
                 return NotFound();
             }
 
-            return diaChi;
+            return size;
         }
 
-        // PUT: api/DiaChis/5
+        // PUT: api/Sizes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDiaChi(int id, DiaChi diaChi)
+        public async Task<IActionResult> PutSize(int id, Size size)
         {
-            if (id != diaChi.Id)
+            if (id != size.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(diaChi).State = EntityState.Modified;
+            _context.Entry(size).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace CSharp5.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DiaChiExists(id))
+                if (!SizeExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,36 @@ namespace CSharp5.Controllers
             return NoContent();
         }
 
-        // POST: api/DiaChis
+        // POST: api/Sizes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DiaChi>> PostDiaChi(DiaChi diaChi)
+        public async Task<ActionResult<Size>> PostSize(Size size)
         {
-            _context.diaChis.Add(diaChi);
+            _context.sizes.Add(size);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDiaChi", new { id = diaChi.Id }, diaChi);
+            return CreatedAtAction("GetSize", new { id = size.Id }, size);
         }
 
-        // DELETE: api/DiaChis/5
+        // DELETE: api/Sizes/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDiaChi(int id)
+        public async Task<IActionResult> DeleteSize(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
-            if (diaChi == null)
+            var size = await _context.sizes.FindAsync(id);
+            if (size == null)
             {
                 return NotFound();
             }
 
-            _context.diaChis.Remove(diaChi);
+            _context.sizes.Remove(size);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DiaChiExists(int id)
+        private bool SizeExists(int id)
         {
-            return _context.diaChis.Any(e => e.Id == id);
-        }       
-        
+            return _context.sizes.Any(e => e.Id == id);
+        }
     }
 }

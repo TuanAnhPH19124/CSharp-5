@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DAL.Data;
 using DAL.Models;
 using DAL.IRepositories;
+using DAL.IServices;
 
 namespace CSharp5.Controllers
 {
@@ -15,22 +16,20 @@ namespace CSharp5.Controllers
     [ApiController]
     public class NguoiDungsController : ControllerBase
     {
-        private readonly IBaseRepositories<NguoiDung> _service;
+        private readonly INguoiDungService _serivce;
 
-        public NguoiDungsController(IBaseRepositories<NguoiDung> service)
+   
+        public NguoiDungsController(INguoiDungService service)
         {
-            _service = service;
+            _serivce = service;
+          
         }
 
         // GET: api/NguoiDungs
         [HttpGet]
-        public async Task<ActionResult<NguoiDung>> GetNguoiDungs()
+        public async Task<ActionResult<IEnumerable<NguoiDung>>> GetNguoiDungs()
         {
-            var nguoi = new NguoiDung()
-            {
-                Ten = "dsadsa"
-            };
-            return nguoi;
+            return await _serivce.GetAllAsync();
         }
 
         // GET: api/NguoiDungs/5

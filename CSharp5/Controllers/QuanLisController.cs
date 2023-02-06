@@ -12,47 +12,47 @@ namespace CSharp5.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DiaChisController : ControllerBase
+    public class QuanLisController : ControllerBase
     {
         private readonly DbContexts _context;
 
-        public DiaChisController(DbContexts context)
+        public QuanLisController(DbContexts context)
         {
             _context = context;
         }
 
-        // GET: api/DiaChis
+        // GET: api/QuanLis
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DiaChi>>> GetdiaChis()
+        public async Task<ActionResult<IEnumerable<QuanLi>>> GetquanLis()
         {
-            return await _context.diaChis.ToListAsync();
+            return await _context.quanLis.ToListAsync();
         }
 
-        // GET: api/DiaChis/5
+        // GET: api/QuanLis/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DiaChi>> GetDiaChi(int id)
+        public async Task<ActionResult<QuanLi>> GetQuanLi(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
+            var quanLi = await _context.quanLis.FindAsync(id);
 
-            if (diaChi == null)
+            if (quanLi == null)
             {
                 return NotFound();
             }
 
-            return diaChi;
+            return quanLi;
         }
 
-        // PUT: api/DiaChis/5
+        // PUT: api/QuanLis/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutDiaChi(int id, DiaChi diaChi)
+        public async Task<IActionResult> PutQuanLi(int id, QuanLi quanLi)
         {
-            if (id != diaChi.Id)
+            if (id != quanLi.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(diaChi).State = EntityState.Modified;
+            _context.Entry(quanLi).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace CSharp5.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DiaChiExists(id))
+                if (!QuanLiExists(id))
                 {
                     return NotFound();
                 }
@@ -73,37 +73,36 @@ namespace CSharp5.Controllers
             return NoContent();
         }
 
-        // POST: api/DiaChis
+        // POST: api/QuanLis
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<DiaChi>> PostDiaChi(DiaChi diaChi)
+        public async Task<ActionResult<QuanLi>> PostQuanLi(QuanLi quanLi)
         {
-            _context.diaChis.Add(diaChi);
+            _context.quanLis.Add(quanLi);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetDiaChi", new { id = diaChi.Id }, diaChi);
+            return CreatedAtAction("GetQuanLi", new { id = quanLi.Id }, quanLi);
         }
 
-        // DELETE: api/DiaChis/5
+        // DELETE: api/QuanLis/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteDiaChi(int id)
+        public async Task<IActionResult> DeleteQuanLi(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
-            if (diaChi == null)
+            var quanLi = await _context.quanLis.FindAsync(id);
+            if (quanLi == null)
             {
                 return NotFound();
             }
 
-            _context.diaChis.Remove(diaChi);
+            _context.quanLis.Remove(quanLi);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool DiaChiExists(int id)
+        private bool QuanLiExists(int id)
         {
-            return _context.diaChis.Any(e => e.Id == id);
-        }       
-        
+            return _context.quanLis.Any(e => e.Id == id);
+        }
     }
 }
