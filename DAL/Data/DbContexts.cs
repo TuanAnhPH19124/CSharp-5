@@ -20,7 +20,8 @@ namespace DAL.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder.UseSqlServer("Server=142857-TU4N4NH3; Database=csharp5-thucungshop; Trusted_Connection=true;"));
+            base.OnConfiguring(optionsBuilder.UseSqlServer("Data Source = 142857-TU4N4NH3; Initial Catalog = csharp5-thucungshop; Integrated Security = True; Pooling=False"));
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

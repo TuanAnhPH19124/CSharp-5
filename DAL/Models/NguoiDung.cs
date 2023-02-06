@@ -1,10 +1,11 @@
-﻿using System;
+﻿using DAL.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DAL.Models
 {
-    public class NguoiDung
+    public class NguoiDung : IEntityBase
     {
         public int Id { get; set; }
         public string Ten { get; set; }
