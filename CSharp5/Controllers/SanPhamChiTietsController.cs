@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Data;
 using DAL.Models;
+using DAL.IServices;
 
 namespace CSharp5.Controllers
 {
@@ -14,25 +15,25 @@ namespace CSharp5.Controllers
     [ApiController]
     public class SanPhamChiTietsController : ControllerBase
     {
-        private readonly DbContexts _context;
+        private readonly ISanPhamChiTietService _service;
 
-        public SanPhamChiTietsController(DbContexts context)
+        public SanPhamChiTietsController(ISanPhamChiTietService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: api/SanPhamChiTiets
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SanPhamChiTiet>>> GetsanPhamChiTiets()
         {
-            return await _context.sanPhamChiTiets.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET: api/SanPhamChiTiets/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SanPhamChiTiet>> GetSanPhamChiTiet(int id)
         {
-            var sanPhamChiTiet = await _context.sanPhamChiTiets.FindAsync(id);
+            var sanPhamChiTiet = await _service.GetOneAsync(id);
 
             if (sanPhamChiTiet == null)
             {
@@ -52,11 +53,9 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(sanPhamChiTiet).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(sanPhamChiTiet);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,9 +77,7 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<SanPhamChiTiet>> PostSanPhamChiTiet(SanPhamChiTiet sanPhamChiTiet)
         {
-            _context.sanPhamChiTiets.Add(sanPhamChiTiet);
-            await _context.SaveChangesAsync();
-
+            await _service.AddAsync(sanPhamChiTiet);
             return CreatedAtAction("GetSanPhamChiTiet", new { id = sanPhamChiTiet.Id }, sanPhamChiTiet);
         }
 
@@ -88,21 +85,19 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSanPhamChiTiet(int id)
         {
-            var sanPhamChiTiet = await _context.sanPhamChiTiets.FindAsync(id);
+            var sanPhamChiTiet = await _service.GetOneAsync(id);
             if (sanPhamChiTiet == null)
             {
                 return NotFound();
             }
 
-            _context.sanPhamChiTiets.Remove(sanPhamChiTiet);
-            await _context.SaveChangesAsync();
-
+            await _service.RemoveAsync(id);
             return NoContent();
         }
 
         private bool SanPhamChiTietExists(int id)
         {
-            return _context.sanPhamChiTiets.Any(e => e.Id == id);
+            return _service.EntityExists(id);
         }
     }
 }

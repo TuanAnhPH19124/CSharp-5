@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DAL.Base;
+using System;
 using System.Collections.Generic;
 
 namespace DAL.Models
 {
-    public class GiamGiaHD
+    public class GiamGiaHD : IEntityBase
     {
         public int Id { get; set; }
         public string Code { get; set; }
