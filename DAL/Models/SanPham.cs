@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using DAL.Base;
+using System.Collections.Generic;
 
 namespace DAL.Models
 {
-    public class SanPham
+    public class SanPham : IEntityBase
     {
         public int Id { get; set; }
         public string TheLoai { get; set; }

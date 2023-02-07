@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Data;
 using DAL.Models;
+using DAL.IServices;
 
 namespace CSharp5.Controllers
 {
@@ -14,25 +15,25 @@ namespace CSharp5.Controllers
     [ApiController]
     public class SanPhamsController : ControllerBase
     {
-        private readonly DbContexts _context;
+        private readonly ISanPhamService _service;
 
-        public SanPhamsController(DbContexts context)
+        public SanPhamsController(ISanPhamService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: api/SanPhams
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SanPham>>> GetsanPhams()
         {
-            return await _context.sanPhams.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET: api/SanPhams/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SanPham>> GetSanPham(int id)
         {
-            var sanPham = await _context.sanPhams.FindAsync(id);
+            var sanPham = await _service.GetOneAsync(id);
 
             if (sanPham == null)
             {
@@ -52,11 +53,9 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(sanPham).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(sanPham);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,9 +77,7 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<SanPham>> PostSanPham(SanPham sanPham)
         {
-            _context.sanPhams.Add(sanPham);
-            await _context.SaveChangesAsync();
-
+            await _service.AddAsync(sanPham);
             return CreatedAtAction("GetSanPham", new { id = sanPham.Id }, sanPham);
         }
 
@@ -88,21 +85,19 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSanPham(int id)
         {
-            var sanPham = await _context.sanPhams.FindAsync(id);
+            var sanPham = await _service.GetOneAsync(id);
             if (sanPham == null)
             {
                 return NotFound();
             }
 
-            _context.sanPhams.Remove(sanPham);
-            await _context.SaveChangesAsync();
-
+            await _service.RemoveAsync(id);
             return NoContent();
         }
 
         private bool SanPhamExists(int id)
         {
-            return _context.sanPhams.Any(e => e.Id == id);
+            return _service.EntityExists(id);
         }
     }
 }
