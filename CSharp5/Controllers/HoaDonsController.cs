@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Data;
 using DAL.Models;
+using DAL.IServices;
 
 namespace CSharp5.Controllers
 {
@@ -14,25 +15,25 @@ namespace CSharp5.Controllers
     [ApiController]
     public class HoaDonsController : ControllerBase
     {
-        private readonly DbContexts _context;
+        private readonly IHoaDonService _service;
 
-        public HoaDonsController(DbContexts context)
+        public HoaDonsController(IHoaDonService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: api/HoaDons
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HoaDon>>> GethoaDons()
         {
-            return await _context.hoaDons.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET: api/HoaDons/5
         [HttpGet("{id}")]
         public async Task<ActionResult<HoaDon>> GetHoaDon(int id)
         {
-            var hoaDon = await _context.hoaDons.FindAsync(id);
+            var hoaDon = await _service.GetOneAsync(id);
 
             if (hoaDon == null)
             {
@@ -52,11 +53,9 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(hoaDon).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(hoaDon);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,9 +77,7 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<HoaDon>> PostHoaDon(HoaDon hoaDon)
         {
-            _context.hoaDons.Add(hoaDon);
-            await _context.SaveChangesAsync();
-
+            await _service.AddAsync(hoaDon);
             return CreatedAtAction("GetHoaDon", new { id = hoaDon.Id }, hoaDon);
         }
 
@@ -88,21 +85,19 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHoaDon(int id)
         {
-            var hoaDon = await _context.hoaDons.FindAsync(id);
+            var hoaDon = await _service.GetOneAsync(id);
             if (hoaDon == null)
             {
                 return NotFound();
             }
 
-            _context.hoaDons.Remove(hoaDon);
-            await _context.SaveChangesAsync();
-
+            await _service.RemoveAsync(id);
             return NoContent();
         }
 
         private bool HoaDonExists(int id)
         {
-            return _context.hoaDons.Any(e => e.Id == id);
+            return _service.EntityExists(id);
         }
     }
 }

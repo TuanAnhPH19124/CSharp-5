@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DAL.Base;
+using System;
 using System.Collections.Generic;
 
 namespace DAL.Models
 {
-    public class HoaDon
+    public class HoaDon : IEntityBase
     {
         public int Id { get; set; }
         public DateTime NgayThanhToan { get; set; } = DateTime.Now;
