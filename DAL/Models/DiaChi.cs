@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using DAL.Base;
+using System.Collections.Generic;
 
 namespace DAL.Models
 {
-    public class DiaChi
+    public class DiaChi : IEntityBase
     {
         public int Id { get; set; }
         public string diachi { get; set; }

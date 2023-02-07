@@ -26,6 +26,11 @@ namespace DAL.Base
            
         }
 
+        public bool EntityExists(int id)
+        {
+            return _contexts.Set<T>().Any(x => x.Id == id);
+        }
+
         public async Task<ActionResult<IEnumerable<T>>> GetAllAsync()
         {
             var result = await _contexts.Set<T>().ToListAsync();
@@ -38,13 +43,13 @@ namespace DAL.Base
             return result;
         }
 
-        public async Task<ActionResult<IEnumerable<T>>> RemoveAsync(int id)
+        public async Task RemoveAsync(int id)
         {
             var entity = await _contexts.Set<T>().FirstOrDefaultAsync(p => p.Id == id);
             EntityEntry entityEntry = _contexts.Entry<T>(entity);
             entityEntry.State = EntityState.Deleted;
             await _contexts.SaveChangesAsync();
-            return await _contexts.Set<T>().ToListAsync();
+           
         }
 
         public async Task<ActionResult<IEnumerable<T>>> UpdateAsync(T entity)

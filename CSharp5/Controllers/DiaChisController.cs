@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Data;
 using DAL.Models;
+using DAL.IServices;
 
 namespace CSharp5.Controllers
 {
@@ -14,25 +15,25 @@ namespace CSharp5.Controllers
     [ApiController]
     public class DiaChisController : ControllerBase
     {
-        private readonly DbContexts _context;
+        private readonly IDiaChiService _service;
 
-        public DiaChisController(DbContexts context)
+        public DiaChisController(IDiaChiService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: api/DiaChis
         [HttpGet]
         public async Task<ActionResult<IEnumerable<DiaChi>>> GetdiaChis()
         {
-            return await _context.diaChis.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET: api/DiaChis/5
         [HttpGet("{id}")]
         public async Task<ActionResult<DiaChi>> GetDiaChi(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
+            var diaChi = await _service.GetOneAsync(id);
 
             if (diaChi == null)
             {
@@ -52,11 +53,9 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(diaChi).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(diaChi);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,9 +77,8 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<DiaChi>> PostDiaChi(DiaChi diaChi)
         {
-            _context.diaChis.Add(diaChi);
-            await _context.SaveChangesAsync();
 
+            await _service.AddAsync(diaChi);
             return CreatedAtAction("GetDiaChi", new { id = diaChi.Id }, diaChi);
         }
 
@@ -88,21 +86,19 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDiaChi(int id)
         {
-            var diaChi = await _context.diaChis.FindAsync(id);
+            var diaChi = await _service.GetOneAsync(id);
             if (diaChi == null)
             {
                 return NotFound();
             }
 
-            _context.diaChis.Remove(diaChi);
-            await _context.SaveChangesAsync();
-
+            await _service.RemoveAsync(id);
             return NoContent();
         }
 
         private bool DiaChiExists(int id)
         {
-            return _context.diaChis.Any(e => e.Id == id);
+            return _service.EntityExists(id);
         }       
         
     }
