@@ -13,6 +13,7 @@ namespace DAL.Base
         Task<ActionResult<T>> GetOneAsync(int id);
         Task<ActionResult<IEnumerable<T>>> AddAsync(T entity);
         Task<ActionResult<IEnumerable<T>>> UpdateAsync(T entity);
-        Task<ActionResult<IEnumerable<T>>> RemoveAsync(int id);
+        Task RemoveAsync(int id);
+        bool EntityExists(int id);
     }
 }

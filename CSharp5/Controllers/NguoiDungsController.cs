@@ -36,8 +36,7 @@ namespace CSharp5.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<NguoiDung>> GetNguoiDung(int id)
         {
-            //var nguoiDung = await _context.NguoiDungs.FindAsync(id);
-            var nguoiDung = new NguoiDung();
+            var nguoiDung = await _serivce.GetOneAsync(id);
             if (nguoiDung == null)
             {
                 return NotFound();
@@ -56,11 +55,9 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            //_context.Entry(nguoiDung).State = EntityState.Modified;
-
             try
             {
-                //await _context.SaveChangesAsync();
+                await _serivce.UpdateAsync(nguoiDung);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -82,9 +79,7 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<NguoiDung>> PostNguoiDung(NguoiDung nguoiDung)
         {
-            //_context.NguoiDungs.Add(nguoiDung);
-            //await _context.SaveChangesAsync();
-
+            await _serivce.AddAsync(nguoiDung);
             return CreatedAtAction("GetNguoiDung", new { id = nguoiDung.Id }, nguoiDung);
         }
 
@@ -92,22 +87,19 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNguoiDung(int id)
         {
-            //var nguoiDung = await _context.NguoiDungs.FindAsync(id);
-            //if (nguoiDung == null)
-            //{
-            //    return NotFound();
-            //}
+            var nguoiDung = await _serivce.GetOneAsync(id);
+            if (nguoiDung == null)
+            {
+                return NotFound();
+            }
 
-            //_context.NguoiDungs.Remove(nguoiDung);
-            //await _context.SaveChangesAsync();
-
+            await _serivce.RemoveAsync(id);
             return NoContent();
         }
 
         private bool NguoiDungExists(int id)
         {
-            //return _context.NguoiDungs.Any(e => e.Id == id);
-            return true;
+            return _serivce.EntityExists(id);
         }
     }
 }
