@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Data;
 using DAL.Models;
+using DAL.IServices;
 
 namespace CSharp5.Controllers
 {
@@ -14,25 +15,25 @@ namespace CSharp5.Controllers
     [ApiController]
     public class QuanLisController : ControllerBase
     {
-        private readonly DbContexts _context;
+        private readonly IQuanLiService _service;
 
-        public QuanLisController(DbContexts context)
+        public QuanLisController(IQuanLiService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: api/QuanLis
         [HttpGet]
         public async Task<ActionResult<IEnumerable<QuanLi>>> GetquanLis()
         {
-            return await _context.quanLis.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET: api/QuanLis/5
         [HttpGet("{id}")]
         public async Task<ActionResult<QuanLi>> GetQuanLi(int id)
         {
-            var quanLi = await _context.quanLis.FindAsync(id);
+            var quanLi = await _service.GetOneAsync(id);
 
             if (quanLi == null)
             {
@@ -52,11 +53,9 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(quanLi).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(quanLi);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,8 +77,7 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<QuanLi>> PostQuanLi(QuanLi quanLi)
         {
-            _context.quanLis.Add(quanLi);
-            await _context.SaveChangesAsync();
+            await _service.AddAsync(quanLi);
 
             return CreatedAtAction("GetQuanLi", new { id = quanLi.Id }, quanLi);
         }
@@ -88,21 +86,20 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteQuanLi(int id)
         {
-            var quanLi = await _context.quanLis.FindAsync(id);
+            var quanLi = await _service.GetOneAsync(id);
             if (quanLi == null)
             {
                 return NotFound();
             }
 
-            _context.quanLis.Remove(quanLi);
-            await _context.SaveChangesAsync();
+            await _service.RemoveAsync(id);
 
             return NoContent();
         }
 
         private bool QuanLiExists(int id)
         {
-            return _context.quanLis.Any(e => e.Id == id);
+            return _service.EntityExists(id);
         }
     }
 }

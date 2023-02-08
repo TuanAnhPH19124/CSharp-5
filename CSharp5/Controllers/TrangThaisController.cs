@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Data;
 using DAL.Models;
+using DAL.IServices;
 
 namespace CSharp5.Controllers
 {
@@ -14,25 +15,25 @@ namespace CSharp5.Controllers
     [ApiController]
     public class TrangThaisController : ControllerBase
     {
-        private readonly DbContexts _context;
+        private readonly ITrangThaiService _service;
 
-        public TrangThaisController(DbContexts context)
+        public TrangThaisController(ITrangThaiService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: api/TrangThais
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TrangThai>>> GettrangThais()
         {
-            return await _context.trangThais.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET: api/TrangThais/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TrangThai>> GetTrangThai(int id)
         {
-            var trangThai = await _context.trangThais.FindAsync(id);
+            var trangThai = await _service.GetOneAsync(id);
 
             if (trangThai == null)
             {
@@ -52,11 +53,9 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(trangThai).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(trangThai);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,9 +77,7 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<TrangThai>> PostTrangThai(TrangThai trangThai)
         {
-            _context.trangThais.Add(trangThai);
-            await _context.SaveChangesAsync();
-
+            await _service.AddAsync(trangThai);
             return CreatedAtAction("GetTrangThai", new { id = trangThai.Id }, trangThai);
         }
 
@@ -88,21 +85,20 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTrangThai(int id)
         {
-            var trangThai = await _context.trangThais.FindAsync(id);
+            var trangThai = await _service.GetOneAsync(id);
             if (trangThai == null)
             {
                 return NotFound();
             }
 
-            _context.trangThais.Remove(trangThai);
-            await _context.SaveChangesAsync();
+            await _service.RemoveAsync(id);
 
             return NoContent();
         }
 
         private bool TrangThaiExists(int id)
         {
-            return _context.trangThais.Any(e => e.Id == id);
+            return _service.EntityExists(id);
         }
     }
 }

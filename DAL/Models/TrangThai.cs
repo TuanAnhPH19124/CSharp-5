@@ -1,8 +1,9 @@
-﻿using System;
+﻿using DAL.Base;
+using System;
 
 namespace DAL.Models
 {
-    public class TrangThai
+    public class TrangThai : IEntityBase
     {
         public int Id { get; set; }
         public DateTime NgayThang { get; set; }
