@@ -43,6 +43,8 @@ namespace CSharp5
             services.AddScoped<ITrangThaiService, TrangThaiService>();
             services.AddScoped<IQuanLiService, QuanLiService>();
             services.AddScoped<IPhanQuyenService, PhanQuyenService>();
+            services.AddScoped<IGiamGiaSPService, GiamGiaSPService>();
+            services.AddScoped<IGioHangService, GioHangService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

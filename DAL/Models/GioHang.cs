@@ -1,6 +1,8 @@
-﻿namespace DAL.Models
+﻿using DAL.Base;
+
+namespace DAL.Models
 {
-    public class GioHang
+    public class GioHang : IEntityBase
     {
         public int Id { get; set; }
         public int SoLuong { get; set; }

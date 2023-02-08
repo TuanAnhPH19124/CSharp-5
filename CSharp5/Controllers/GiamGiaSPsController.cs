@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Data;
 using DAL.Models;
+using DAL.IServices;
 
 namespace CSharp5.Controllers
 {
@@ -14,25 +15,25 @@ namespace CSharp5.Controllers
     [ApiController]
     public class GiamGiaSPsController : ControllerBase
     {
-        private readonly DbContexts _context;
+        private readonly IGiamGiaSPService _service;
 
-        public GiamGiaSPsController(DbContexts context)
+        public GiamGiaSPsController(IGiamGiaSPService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: api/GiamGiaSPs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GiamGiaSP>>> GetgiamGiaSPs()
         {
-            return await _context.giamGiaSPs.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET: api/GiamGiaSPs/5
         [HttpGet("{id}")]
         public async Task<ActionResult<GiamGiaSP>> GetGiamGiaSP(int id)
         {
-            var giamGiaSP = await _context.giamGiaSPs.FindAsync(id);
+            var giamGiaSP = await _service.GetOneAsync(id);
 
             if (giamGiaSP == null)
             {
@@ -52,11 +53,9 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(giamGiaSP).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(giamGiaSP);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,8 +77,7 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<GiamGiaSP>> PostGiamGiaSP(GiamGiaSP giamGiaSP)
         {
-            _context.giamGiaSPs.Add(giamGiaSP);
-            await _context.SaveChangesAsync();
+            await _service.AddAsync(giamGiaSP);
 
             return CreatedAtAction("GetGiamGiaSP", new { id = giamGiaSP.Id }, giamGiaSP);
         }
@@ -88,21 +86,20 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGiamGiaSP(int id)
         {
-            var giamGiaSP = await _context.giamGiaSPs.FindAsync(id);
+            var giamGiaSP = await _service.GetOneAsync(id);
             if (giamGiaSP == null)
             {
                 return NotFound();
             }
 
-            _context.giamGiaSPs.Remove(giamGiaSP);
-            await _context.SaveChangesAsync();
+            await _service.RemoveAsync(id);
 
             return NoContent();
         }
 
         private bool GiamGiaSPExists(int id)
         {
-            return _context.giamGiaSPs.Any(e => e.Id == id);
+            return _service.EntityExists(id);
         }
     }
 }
