@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DAL.Data;
 using DAL.Models;
+using DAL.IServices;
 
 namespace CSharp5.Controllers
 {
@@ -14,25 +15,25 @@ namespace CSharp5.Controllers
     [ApiController]
     public class PhanQuyensController : ControllerBase
     {
-        private readonly DbContexts _context;
+        private readonly IPhanQuyenService _service;
 
-        public PhanQuyensController(DbContexts context)
+        public PhanQuyensController(IPhanQuyenService service)
         {
-            _context = context;
+            _service = service;
         }
 
         // GET: api/PhanQuyens
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PhanQuyen>>> GetphanQuyens()
         {
-            return await _context.phanQuyens.ToListAsync();
+            return await _service.GetAllAsync();
         }
 
         // GET: api/PhanQuyens/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PhanQuyen>> GetPhanQuyen(int id)
         {
-            var phanQuyen = await _context.phanQuyens.FindAsync(id);
+            var phanQuyen = await _service.GetOneAsync(id);
 
             if (phanQuyen == null)
             {
@@ -52,11 +53,10 @@ namespace CSharp5.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(phanQuyen).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _service.UpdateAsync(phanQuyen);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -78,9 +78,8 @@ namespace CSharp5.Controllers
         [HttpPost]
         public async Task<ActionResult<PhanQuyen>> PostPhanQuyen(PhanQuyen phanQuyen)
         {
-            _context.phanQuyens.Add(phanQuyen);
-            await _context.SaveChangesAsync();
-
+            await _service.AddAsync(phanQuyen);
+                 
             return CreatedAtAction("GetPhanQuyen", new { id = phanQuyen.Id }, phanQuyen);
         }
 
@@ -88,21 +87,20 @@ namespace CSharp5.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePhanQuyen(int id)
         {
-            var phanQuyen = await _context.phanQuyens.FindAsync(id);
+            var phanQuyen = await _service.GetOneAsync(id);
             if (phanQuyen == null)
             {
                 return NotFound();
             }
 
-            _context.phanQuyens.Remove(phanQuyen);
-            await _context.SaveChangesAsync();
+            await _service.RemoveAsync(id);
 
             return NoContent();
         }
 
         private bool PhanQuyenExists(int id)
         {
-            return _context.phanQuyens.Any(e => e.Id == id);
+            return _service.EntityExists(id);
         }
     }
 }

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using DAL.Base;
+using System.Collections.Generic;
 
 namespace DAL.Models
 {
-    public class QuanLi
+    public class QuanLi : IEntityBase
     {
         public int Id { get; set; }
         public string Ten { get; set; }
