@@ -2,10 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace DAL.Base
@@ -23,7 +24,7 @@ namespace DAL.Base
             await _contexts.Set<T>().AddAsync(entity);
             await _contexts.SaveChangesAsync();
             return await _contexts.Set<T>().ToListAsync();
-           
+
         }
 
         public bool EntityExists(int id)
@@ -31,10 +32,52 @@ namespace DAL.Base
             return _contexts.Set<T>().Any(x => x.Id == id);
         }
 
+        public async Task<ActionResult<IEnumerable<T>>> GetAll2Async(IQueryable<T> query)
+        {
+            return await query.ToListAsync();
+        }
+
         public async Task<ActionResult<IEnumerable<T>>> GetAllAsync()
         {
             var result = await _contexts.Set<T>().ToListAsync();
             return result;
+        }
+
+        public async Task<ActionResult<IEnumerable<T>>> GetAllAsync(params Expression<Func<T, object>>[] objectIncludes)
+        {
+            IQueryable<T> query = _contexts.Set<T>();
+            query = objectIncludes.Aggregate(query, (current, objectIncludes) => current.Include(objectIncludes));
+            return await query.ToListAsync();
+        }
+
+        
+
+        public IQueryable<T> GetFirstOrDefault(Expression<Func<T, bool>> predicate = null,
+                                                          Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
+                                                          Func<IQueryable<T>, IIncludableQueryable<T, object>> include = null
+                                                             )
+        {
+            IQueryable<T> query = _contexts.Set<T>();
+            
+
+            if (include != null)
+            {
+                query = include(query);
+            }
+
+            if (predicate != null)
+            {
+                query = query.Where(predicate);
+            }
+
+            if (orderBy != null)
+            {
+                return orderBy(query);
+            }
+            else
+            {
+                return query;
+            }
         }
 
         public async Task<ActionResult<T>> GetOneAsync(int id)
@@ -49,7 +92,7 @@ namespace DAL.Base
             EntityEntry entityEntry = _contexts.Entry<T>(entity);
             entityEntry.State = EntityState.Deleted;
             await _contexts.SaveChangesAsync();
-           
+
         }
 
         public async Task<ActionResult<IEnumerable<T>>> UpdateAsync(T entity)

@@ -22,14 +22,16 @@ namespace CSharp5.Controllers
         public NguoiDungsController(INguoiDungService service)
         {
             _serivce = service;
-          
         }
 
         // GET: api/NguoiDungs
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NguoiDung>>> GetNguoiDungs()
         {
-            return await _serivce.GetAllAsync();
+            var query = _serivce.GetFirstOrDefault(include: x => x.Include(a => a.diaChis).ThenInclude(hd => hd.hoaDons).ThenInclude(sp => sp.sanPhamChiTiet));
+            return await _serivce.GetAll2Async(query);
+            //return await _serivce.GetAllAsync(x => x.diaChis);
+            //return await _serivce.GetAllAsync();
         }
 
         // GET: api/NguoiDungs/5
