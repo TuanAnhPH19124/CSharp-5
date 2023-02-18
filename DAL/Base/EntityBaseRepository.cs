@@ -50,7 +50,7 @@ namespace DAL.Base
             return await query.ToListAsync();
         }
 
-        
+
 
         public IQueryable<T> GetFirstOrDefault(Expression<Func<T, bool>> predicate = null,
                                                           Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
@@ -58,7 +58,7 @@ namespace DAL.Base
                                                              )
         {
             IQueryable<T> query = _contexts.Set<T>();
-            
+
 
             if (include != null)
             {
