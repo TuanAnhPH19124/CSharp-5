@@ -33,11 +33,11 @@ namespace UI.Controllers
         {
             return View();
         }
-        public IActionResult Giohang()
+        public IActionResult Login()
         {
             return View();
         }
-        public IActionResult Login()
+        public IActionResult Giohang()
         {
             return View();
         }
