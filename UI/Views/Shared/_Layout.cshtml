@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - UI</title>
+    <title>@ViewData["Title"] Shop Thú Cưng</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -11,18 +11,39 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">UI</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Shop Thú Cưng</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" style="padding-right:200px">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                        </li>                     
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Sanpham">Sản phẩm</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Banggia">Bảng giá</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Tintuc">Tin Tức</a>
+                        </li>  
+                        
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Lienhe">Liên Hệ</a>
+
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Tintuc">Tin Tức</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Giohang">Giỏ Hàng</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Đăng Nhập</a>
                         </li>
                     </ul>
                 </div>
@@ -33,16 +54,286 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-    </div>
+        <section class="welcomeheader">
+            <div class="title" style="text-align:center; font-weight:600" >
+            <h2>
+                <span style="font-weight:800; color: #f4b915;">Chào Mừng Bạn Đến Với FPoly PET</span>
+            </h2>
+            <br>
+            </div>   
+            
+            <div class="container text-center">
+                <div class="row">
+                    <div class=col>
+                        <div class="box_welcome">
+                            <div class="image_welcome">
+                                <a href="#">
+                                    <img src="img/dog.jpg"></img>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="content_welcome">
+                            <h3 class="title_welcome">
+                                <a style="color:black" href="#" title="Dành cho Chó">Dành cho Chó</a>
+                            </h3>
+                            <p>Đồ chơi và sản phẩm chuyên dùng cho chó</p>   
+                        </div>
+                    </div>
+                    <div class=col>
+                        <div class="box_welcome">
+                            <div class="image_welcome">
+                                <a href="#">
+                                    <img src="img/cat.jpg"></img>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="content_welcome">
+                            <h3 class="title_welcome">
+                                <a style="color:black"  href="#" title="Dành cho Mèo">Dành cho Mèo</a>
+                            </h3>
+                            <p>Đồ chơi và sản phẩm chuyên dùng cho mèo</p>   
+                        </div>
+                    </div>
+                    <div class=col>
+                        <div class="box_welcome">
+                            <div class="image_welcome">
+                                <a href="#">
+                                    <img src="img/hamster.jpg"></img>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="content_welcome">
+                            <h3 class="title_welcome">
+                                <a style="color:black"  href="#" title="Dành cho Hmaster">Dành cho Hamster</a>
+                            </h3>
+                            <p>Đồ chơi và sản phẩm chuyên dùng cho hamster</p>   
+                        </div>
+                    </div>
+                    <div class=col>
+                        <div class="box_welcome">
+                            <div class="image_welcome">
+                                <a href="#">
+                                    <img src="img/bird.jpg"></img>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="content_welcome">
+                            <h3 class="title_welcome">
+                                <a style="color:black"  href="#" title="Dành cho Chim">Dành cho Chim</a>
+                            </h3>
+                            <p>Đồ chơi và sản phẩm chuyên dùng cho chim</p>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <hr>
+        <section class="topbanchay">
+            <div class="container">
+                <h2 style="text-align:center; padding:15px 0; font-weight:700; color:white; background-color:orange">Sản phẩm nội bật</h2>
+                <hr>
+                <div class="row">
+                    <div class=col>
+                        <div class="top_product">
+                            <a href="#">
+                                <img class="lazyload loaded" width="130" height="130" style="padding-left:35px" src="img/suabot.jpg">
+                            </a>
+                        </div>
+                        <div class="product_info">
+                            <h3 class="product_name">
+                                <a href="#" title="Sữa bột cho mèo" style="font-size:large; font-weight:500; color:black; text-align:center">Sữa bột cho mèo</a>
+                            </h3>
+                            <div class="price_box">
+                                <p>198.000đ</p>             
+                                <button type="button" class="btn btn-outline-success"
+                                style="margin-bottom: 10px;border-radius: 20px;">
+                                Add to cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
 
+                       <div class=col>
+                        <div class="top_product">
+                            <a href="#">
+                                <img class="lazyload loaded" width="130" height="130" style="padding-left:35px" src="img/Nuocruamat.jpg">
+                            </a>
+                        </div>
+                        <div class="product_info">
+                            <h3 class="product_name">
+                                <a href="#" title="Nước rửa mắt" style="font-size:large; font-weight:500; color:black; text-align:center">Nước nhỏ mắt</a>
+                            </h3>
+                            <div class="price_box">
+                                <p>135.000đ</p>             
+                                <button type="button" class="btn btn-outline-success"
+                                style="margin-bottom: 10px;border-radius: 20px;">
+                                Add to cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                       <div class=col>
+                        <div class="top_product">
+                            <a href="#">
+                                <img class="lazyload loaded" width="130" height="130" style="padding-left:35px" src="img/bosungcanxi.jpg">
+                            </a>
+                        </div>
+                        <div class="product_info">
+                            <h3 class="product_name">
+                                <a href="#"  style="font-size:large; font-weight:500; color:black; text-align:center">Canxi bổ sung</a>
+                            </h3>
+                            <div class="price_box">
+                                <p>280.000đ</p>             
+                                <button type="button" class="btn btn-outline-success"
+                                style="margin-bottom: 10px;border-radius: 20px;">
+                                Add to cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                       <div class=col >
+                        <div class="top_product">
+                            <a href="#">
+                                <img class="lazyload loaded" width="130" height="130" style="padding-left:35px" src="img/batancom.jpg">
+                            </a>
+                        </div>
+                        <div class="product_info">
+                            <h3 class="product_name">
+                                <a href="#"  style="font-size:large; font-weight:500; color:black; text-align:center">Bát ăn cơm</a>
+                            </h3>
+                            <div class="price_box">
+                                <p>38.000đ</p>             
+                                <button type="button" class="btn btn-outline-success"
+                                style="margin-bottom: 10px;border-radius: 20px;">
+                                Add to cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <br>
+        <section class="banner_index">
+            <img style="max-width:100%" src="img/banner_index.jpg">
+        </section> <br>
+        <section class="products">
+            <div class="card-body">
+            <div class=container>
+                <div class="main">
+                    <h2 style="font-weight:700;color:#f4b915;text-align:center">
+                        <span>Sản phẩm shop đang bán</span>
+                    </h2>
+                          <ul class="nav justify-content-center">
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Thức ăn cho chó</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Thức ăn cho mèo</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Thức ăn cho hamster</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="#">Thức ăn cho chim</a>
+                          </li>
+                        </ul> <br ><br >                      
+                      <div class="container text-center">
+                      <div class="row row-cols-4">
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                              <img src="~/img/suabot.jpg" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <h5 class="card-title">Sữa bột dành cho chó mèo</h5>
+                                <p class="card-text">258.000đ</p>
+                                <a href="#" class="btn btn-primary">Mua ngay</a>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                              <img src="~/img/bosungcanxi.jpg" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <h5 class="card-title">Thực phẩm bổ sung canxi</h5>
+                                <p class="card-text">198.000đ</p>
+                                <a href="#" class="btn btn-primary">Mua ngay</a>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                              <img src="~/img/Nuocruamat.jpg" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <h5 class="card-title">Nước rửa mắt</h5>
+                                <p class="card-text">98.000đ</p>
+                                <a href="#" class="btn btn-primary">Mua ngay</a>
+                              </div>
+                            </div>
+                        </div>
+                      @*<div class="col">Column</div>*@
+                        </div>
+                      </div>
+                    </div> <br>
+                     <div class="container text-center">
+                      <div class="row row-cols-4">
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                              <img src="~/img/dochoi.jpg" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <h5 class="card-title">Đồ chơi </h5>
+                                <p class="card-text">50.000đ</p>
+                                <a href="#" class="btn btn-primary">Mua ngay</a>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                              <img src="~/img/gel.jpg" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <h5 class="card-title">Gel vệ sinh</h5>
+                                <p class="card-text">80.000đ</p>
+                                <a href="#" class="btn btn-primary">Mua ngay</a>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                              <img src="~/img/balo.jpg" class="card-img-top" alt="...">
+                              <div class="card-body">
+                                <h5 class="card-title">Balo dành cho chó mèo</h5>
+                                <p class="card-text">165.000đ</p>
+                                <a href="#" class="btn btn-primary">Mua ngay</a>
+                              </div>
+                            </div>
+                        </div>
+                        @*<div class="col">Column</div>*@
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="about">
+             <div class=container>
+                <div class="main">
+                    <h2 style="font-weight:700;color:#f4b915;text-align:center">
+                        <span>Tin Tức</span>
+                    </h2>
+                </div>
+                <br>
+                <br>
+                <br>
+            </div>
+        </section>
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - UI - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container" style ="text-align:center"> 
+             Copyright ©2023 All rights reserved | This template is made with by Fpoly
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
