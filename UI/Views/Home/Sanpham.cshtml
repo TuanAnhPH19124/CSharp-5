@@ -1,5 +1,10 @@
-﻿<div class="container">  
-        <div ng-controller="qlsp">
+﻿@model List<SanPham>
+
+
+
+
+<div class="container">  
+        <div >
             <form id="form_create_product">
                 <h2 style="text-align: center; font-weight: 800;">Quản lý sản phẩm</h2>
                 <input type="text" style="display: none" />
@@ -29,27 +34,24 @@
                     <thead>
                         <tr>
                             <td>Id</td>
-                            <td>Tên</td>
-                            <td>Số lượng</td>
-                            <td>Giá nhập</td>
-                            <td>Giá bán</td>
-                            <td>Miêu tả</td>        
-                            <td>Action</td>                             
+                            <td>Thể loại</td>
+                            <td>Danh mục</td>                       
+                            <td width="200">Action</td>                             
                         </tr>
                     </thead>         
                     <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                        @foreach (var item in Model)
+                       {
+                            <tr>
+                            <td>@item.Id</td>
+                            <td>@item.TheLoai</td>
+                            <td>@item.DanhMuc</td>
                             <td>
-                                <button type="button" class="btn btn-danger"> Sửa </button>         
+                                <button type="button" class="btn btn-success"> Sửa </button>         
                                 <button type="button" class="btn btn-danger"> Xoá </button> 
                             </td>                              
                         </tr>
+                       }                
                     </tbody>                   
                 </table>
             </div>
