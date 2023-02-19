@@ -41,5 +41,9 @@ namespace UI.Controllers
         {
             return View();
         }
+        public IActionResult Banggia()
+        {
+            return View();
+        }
     }
 }

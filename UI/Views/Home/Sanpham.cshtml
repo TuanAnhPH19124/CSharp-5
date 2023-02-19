@@ -1,8 +1,8 @@
 ﻿<div class="container">  
         <div ng-controller="qlsp">
-            <form id="form_create_product" ng-submit="onFormSubmit($event)">
+            <form id="form_create_product">
                 <h2 style="text-align: center; font-weight: 800;">Quản lý sản phẩm</h2>
-                <input type="text" value="{{product.id}}" ng-model="product.id" style="display: none" />
+                <input type="text" style="display: none" />
                 <label>Tên sản phẩm</label>
                 <input type="text" class="form-control" required/>
                 <br />
@@ -50,11 +50,8 @@
                                 <button type="button" class="btn btn-danger"> Xoá </button> 
                             </td>                              
                         </tr>
-                    </tbody>
-                    
+                    </tbody>                   
                 </table>
             </div>
         </div>
-    </body>
 </div>
->>>>>>>>> Temporary merge branch 2
