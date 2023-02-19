@@ -23,7 +23,7 @@ namespace DAL.Models
 
         public List<TrangThai> trangThais { get; set; }
 
-        
+
 
 
     }
