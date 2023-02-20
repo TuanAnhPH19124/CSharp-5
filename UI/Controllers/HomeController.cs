@@ -39,15 +39,15 @@ namespace UI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         public async Task<IActionResult> Sanpham()
-        {         
+        {
             using HttpClient client = _httpClientFactory.CreateClient();
-            using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/Nguoidungs");
+            using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/Nguoidung");
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var list = JsonConvert.DeserializeObject<List<SanPham>>(jsonResponse);
             if (response.IsSuccessStatusCode)
             {
                 return View(list);
-            }        
+            }
             return View();
         }
         public IActionResult Login()
