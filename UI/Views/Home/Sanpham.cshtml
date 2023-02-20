@@ -1,0 +1,70 @@
+﻿@using UI.ViewModels
+@model Sanphamvm
+
+<div class="container">  
+        <div >
+            <form asp-action="AddProduct" id="form_create_product">
+                <h2 style="text-align: center; font-weight: 800;">Quản lý sản phẩm</h2>
+                <input type="text" asp-for="SanPhamChiTiet.Id_SP">
+                <label>Id Sản phẩm</label>
+                <input type="text" style="display: none" />              
+                <label>Tên sản phẩm</label>
+                <input asp-for="SanPhamChiTiet.TenSP" type="text" class="form-control" required/>
+                <br />
+                <label>Số lượng</label>
+                <input asp-for="SanPhamChiTiet.SoLuong" type="text" class="form-control" required/>
+                <br />
+                <label>Giá nhập</label>
+                <input asp-for="SanPhamChiTiet.GiaNhap" type="text" class="form-control" required/>
+                <br />
+                <label>Giá bán</label>
+                <input asp-for="SanPhamChiTiet.GianBan" type="text" class="form-control" id="giaBan"/>
+                <br />               
+                <label>Trạng thái</label>
+                <input asp-for="SanPhamChiTiet.TrangThai" type="text" class="form-control" id="trangThai">
+                <br />
+                <label>Id giảm giá</label>
+                <input asp-for="SanPhamChiTiet.Id_GiamGia" type="text" class="form-control" id="idGiamgia">
+                <br />
+                <label>Mô tả</label>
+                <textarea asp-for="SanPhamChiTiet.MoTa" class="form-control" id="" name="" rows="3"></textarea>
+                <br />
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-primary"
+                        style="margin: 10px" value="Thêm">
+                </div>
+            </form>
+            <br>
+            <div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td>Tên sản phẩm</td>
+                            <td>Số lượng</td>
+                            <td>Gia nhập</td>
+                            <td>Gia bán</td>
+                            <td>Mô tả</td>                                                 
+                            <td width="200">Action</td>                             
+                        </tr>
+                    </thead>         
+                    <tbody>
+                        @foreach (var item in Model.sanPhamChiTiets)
+                       {
+                            <tr>
+                            <td>@item.TenSP</td>
+                            <td>@item.SoLuong</td>
+                            <td>@item.GiaNhap</td>
+                            <td>@item.GianBan</td>
+                            <td>@item.MoTa</td>
+
+                            <td>
+                                <button type="button" class="btn btn-success"> Sửa </button>         
+                                <button type="button" class="btn btn-danger"> Xoá </button> 
+                            </td>                              
+                        </tr>
+                       }                
+                    </tbody>                   
+                </table>
+            </div>
+        </div>
+</div>

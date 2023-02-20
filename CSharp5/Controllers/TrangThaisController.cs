@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using DAL.IServices;
+using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DAL.Data;
-using DAL.Models;
-using DAL.IServices;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CSharp5.Controllers
 {
