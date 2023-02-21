@@ -16,7 +16,6 @@ namespace DAL.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder.UseSqlServer("Data Source = PHONGTT2710\\SQLEXPRESS; Initial Catalog = csharp5-thucungshop; Integrated Security = True; Pooling=False"));
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

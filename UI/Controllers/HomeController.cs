@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DAL.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -7,19 +9,21 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using UI.Models;
-using DAL.Models;
+using UI.ViewModels;
 
 namespace UI.Controllers
 {
     public class HomeController : Controller
-    {      
+    {
         private readonly ILogger<HomeController> _logger;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpClientFactory _httpClientFactory = null;
+        private readonly IConfiguration _configuration = null;
 
-        public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory)
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
+            _configuration = configuration;
 
         }
 
@@ -39,17 +43,38 @@ namespace UI.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         public async Task<IActionResult> Sanpham()
-        {         
-            using HttpClient client = _httpClientFactory.CreateClient();
-            using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/Nguoidungs");
+        {
+            string? httpClientName = _configuration["HttpClientName"];
+            using HttpClient client = _httpClientFactory.CreateClient(httpClientName?? "");
+            using HttpResponseMessage response = await client.GetAsync("api/SanPhamChiTiets");
+            //using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/SanPhamChiTiets");
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var list = JsonConvert.DeserializeObject<List<SanPham>>(jsonResponse);
+            var list = new Sanphamvm() { sanPhamChiTiets = JsonConvert.DeserializeObject<List<SanPhamChiTiet>>(jsonResponse) };
+            response.EnsureSuccessStatusCode();
+            return View(list);
+        }
+
+        public async Task<IActionResult> AddProduct([Bind()]Sanphamvm product)
+        {       
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/SanPhamChiTiets", product.SanPhamChiTiet);
             if (response.IsSuccessStatusCode)
             {
-                return View(list);
-            }        
+                return RedirectToAction("Sanpham");
+            }
+            return NotFound();
+        }
+        public async Task<IActionResult> AddGiohang(GioHang gioHang)
+        {
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Giohangs", gioHang);
+            if (response.IsSuccessStatusCode)
+            {
+                return View();
+            }
             return View();
         }
+
         public IActionResult Login()
         {
             return View();
@@ -64,9 +89,9 @@ namespace UI.Controllers
         }
         public async Task<IActionResult> GetAll()
         {
-            
+
             return RedirectToAction(nameof(Sanpham));
-            
+
         }
     }
 }
