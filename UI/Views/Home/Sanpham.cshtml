@@ -6,8 +6,8 @@
             <form asp-action="AddProduct" id="form_create_product">
                 <h2 style="text-align: center; font-weight: 800;">Quản lý sản phẩm</h2>
                 <label>Id Sản phẩm</label>
-                <input type="text"  asp-for="SanPhamChiTiet.Id_SP" class="form-control"> 
-                <br />
+                <input asp-for="SanPhamChiTiet.Id_SP" type="text" class="form-control" required/>     
+                <br>
                 <label>Tên sản phẩm</label>
                 <input asp-for="SanPhamChiTiet.TenSP" type="text" class="form-control" required/>
                 <br />
@@ -27,7 +27,7 @@
                 <input asp-for="SanPhamChiTiet.Id_GiamGia" type="text" class="form-control" id="idGiamgia">
                 <br />
                 <label>Mô tả</label>
-                <textarea asp-for="SanPhamChiTiet.MoTa" class="form-control" id="" name="" rows="3"></textarea>
+                <input asp-for="SanPhamChiTiet.MoTa" type="text" class="form-control" id="MoTa">
                 <br />
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-primary"
