@@ -15,7 +15,7 @@ namespace DAL.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder.UseSqlServer("Data Source = LONGNT; Initial Catalog = Csharp5; Integrated Security = True; Pooling=False"));
+            base.OnConfiguring(optionsBuilder.UseSqlServer("Data Source = PHONGTT2710\\SQLEXPRESS; Initial Catalog = csharp5-thucungshop; Integrated Security = True; Pooling=False"));
 
         }
 
