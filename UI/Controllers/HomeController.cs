@@ -71,7 +71,26 @@ namespace UI.Controllers
             }
             return View();
         }
-
+        public async Task<IActionResult> DeleteProduct(int Id)
+        {
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.DeleteAsync($"https://localhost:44308/api/SanPhamChiTiets/{Id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Sanpham");
+            }
+            return NotFound();
+        }
+        public async Task<IActionResult> UpdateProduct(Sanphamvm sanpham)
+        {
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.PutAsJsonAsync($"https://localhost:44308/api/SanPhamChiTiets", sanpham.SanPhamChiTiet);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Sanpham");
+            }
+            return NotFound();
+        }
         public IActionResult Login()
         {
             return View();
