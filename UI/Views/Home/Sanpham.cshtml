@@ -5,9 +5,9 @@
         <div >
             <form asp-action="AddProduct" id="form_create_product">
                 <h2 style="text-align: center; font-weight: 800;">Quản lý sản phẩm</h2>
-                <input type="text" asp-for="SanPhamChiTiet.Id_SP">
                 <label>Id Sản phẩm</label>
-                <input type="text" style="display: none" />              
+                <input type="text"  asp-for="SanPhamChiTiet.Id_SP" class="form-control"> 
+                <br />
                 <label>Tên sản phẩm</label>
                 <input asp-for="SanPhamChiTiet.TenSP" type="text" class="form-control" required/>
                 <br />
