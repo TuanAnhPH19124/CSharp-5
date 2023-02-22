@@ -15,7 +15,8 @@ using UI.ViewModels;
 using DAL.Models;
 using UI.ViewModels;
 using Microsoft.AspNetCore.Http;
-
+using DAL.IServices;
+using System.Linq;
 
 namespace UI.Controllers
 {
@@ -24,6 +25,7 @@ namespace UI.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _httpClientFactory = null;
         private readonly IConfiguration _configuration = null;
+
 
         public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
@@ -115,16 +117,31 @@ namespace UI.Controllers
             }
             return View();
         }
-
         public IActionResult Login()
         {
-            HttpContext.Session.SetString("email","13123");
             return View();
         }
-        public IActionResult hienThiEmail()
+        [HttpPost]
+        public async Task<IActionResult> Login([Bind()]AccountVM vM)
         {
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/NguoiDungs");
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var list = JsonConvert.DeserializeObject<IEnumerable<NguoiDung>>(jsonResponse);
+            var user = list.Where(ng => ng.Email == vM.Email && ng.Password == vM.Pass);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            HttpContext.Session.SetString("email",vM.Email);
             return RedirectToAction("Index");
+        }
 
+
+        public IActionResult LogOut()
+        {
+            HttpContext.Session.Remove("email");
+            return RedirectToAction("Index");
         }
         public IActionResult Giohang()
         {
