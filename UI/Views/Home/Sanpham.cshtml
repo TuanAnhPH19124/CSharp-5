@@ -43,32 +43,23 @@
                             <td>Số lượng</td>
                             <td>Gia nhập</td>
                             <td>Gia bán</td>
-                            <td>Mô tả</td>                                                 
-                            <td width="200">Action</td>                             
+                            <td>Mô tả</td>                     
                         </tr>
                     </thead>         
                     <tbody>
                         @foreach (var item in Model.sanPhamChiTiets)
                        {
-
-                       <tr data-id="@item.Id">
+                            <tr data-id="@item.Id" >
                                 <td contenteditable="true">@item.TenSP</td>
                                 <td contenteditable="true">@item.SoLuong</td>
                                 <td contenteditable="true">@item.GiaNhap</td>
                                 <td contenteditable="true">@item.GianBan</td>
                                 <td contenteditable="true">@item.MoTa</td>
-                            <tr>
-                            <td>@item.TenSP</td>
-                            <td>@item.SoLuong</td>
-                            <td>@item.GiaNhap</td>
-                            <td>@item.GianBan</td>
-                            <td>@item.MoTa</td>
-
-                            <td>
-                               <a data-id="@item.Id" data-idsp="@item.Id_SP" class="update-button btn btn-danger "> Edit </a>
-                                <a asp-action="DeleteProduct" asp-route-id="@item.Id" class="btn btn-danger">Xóa</a>
-                            </td>                              
-                        </tr>
+                                <td>
+                                    <a data-id="@item.Id" data-idsp="@item.Id_SP" class="update-button btn btn-danger "> Edit </a>
+                                    <a asp-action="DeleteProduct" asp-route-id="@item.Id" class="btn btn-danger">Xóa</a>
+                                </td>                              
+                            </tr>
                        }                
                     </tbody>                   
                 </table>
@@ -89,13 +80,11 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     })
-
     document.addEventListener("DOMContentLoaded", function(){
         var buttons = document.querySelectorAll(".update-button");
         buttons.forEach(function(button){
             button.addEventListener("click", function(event){
                 event.preventDefault();
-
                 var id = button.getAttribute("data-id");
                 var idsp = button.getAttribute("data-idsp");              
                 updateRow(id, idsp);
@@ -103,7 +92,6 @@
         })
     });
     function updateRow(id, idsp){
-
         var row = document.getElementById("myTable").querySelector("tr[data-id='" + id + "']")
         var tensp = row.querySelector("td:nth-child(1)").textContent;
         var Soluong = row.querySelector("td:nth-child(2)").textContent;
@@ -113,7 +101,6 @@
         //var giamgia = row.querySelector("td:nth-child(6)").textContent;
         //var trangthai = row.querySelector("td:nth-child(7)").textContent;
        
-
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/Home/Update/" + id);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");

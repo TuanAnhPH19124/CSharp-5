@@ -5,6 +5,7 @@ namespace DAL.Data
 {
     public class DbContexts : DbContext
     {
+       
         public DbContexts()
         {
 
@@ -15,7 +16,7 @@ namespace DAL.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder.UseSqlServer(@"Data Source = LAPTOP-2H8Q06GG\MAIN; Initial Catalog = csharp5-thucungshop; Integrated Security = True; Pooling=False"));
+            base.OnConfiguring(optionsBuilder.UseSqlServer(@"Data Source = LONGNT; Initial Catalog = csharp5-thucungshop; Integrated Security = True; Pooling=False"));
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
