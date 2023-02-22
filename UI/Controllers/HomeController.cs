@@ -53,8 +53,9 @@ namespace UI.Controllers
             response.EnsureSuccessStatusCode();
             return View(list);
         }
-        public async Task<IActionResult> AddProduct([Bind()] Sanphamvm product)
-        {
+
+        public async Task<IActionResult> AddProduct([Bind()]Sanphamvm product)
+        {       
             using HttpClient client = _httpClientFactory.CreateClient();
             using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/SanPhamChiTiets", product.SanPhamChiTiet);
             if (response.IsSuccessStatusCode)
