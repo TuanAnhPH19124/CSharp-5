@@ -103,39 +103,18 @@ namespace UI.Controllers
             }
             return NotFound();
         }
-        
-
+        public async Task<IActionResult> GetAllProduct()
+        {
             using HttpClient client = _httpClientFactory.CreateClient();
             using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/SanPhamChiTiets");
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var list = new Sanphamvm() {sanPhamChiTiets = JsonConvert.DeserializeObject<List<SanPhamChiTiet>>(jsonResponse) }; 
+            var list = new Sanphamvm() { sanPhamChiTiets = JsonConvert.DeserializeObject<List<SanPhamChiTiet>>(jsonResponse) };
             if (response.IsSuccessStatusCode)
             {
                 return View(list);
             }
             return View();
         }
-        public async Task<IActionResult> AddProduct([Bind()]Sanphamvm product)
-        {       
-            using HttpClient client = _httpClientFactory.CreateClient();
-            using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/SanPhamChiTiets", product.SanPhamChiTiet);
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Sanpham");
-            }
-            return NotFound();
-        }
-        public async Task<IActionResult> AddGiohang( GioHang gioHang)
-        {
-            using HttpClient client = _httpClientFactory.CreateClient();
-            using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Giohangs",gioHang);
-            if (response.IsSuccessStatusCode)
-            {
-                return View();
-            }
-            return View();
-        }
-
 
         public IActionResult Login()
         {
