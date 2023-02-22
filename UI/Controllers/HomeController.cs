@@ -74,6 +74,16 @@ namespace UI.Controllers
             }
             return View();
         }
+        [HttpPost]
+        [Route("Home/Update/{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] SanPhamChiTiet sanpham)
+        {
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.PutAsJsonAsync($"api/SanPhamChiTiets/{id}", sanpham);
+            response.EnsureSuccessStatusCode();
+            return Ok();
+        }
+
         public async Task<IActionResult> DeleteProduct(int Id)
         {
             using HttpClient client = _httpClientFactory.CreateClient();
@@ -84,16 +94,7 @@ namespace UI.Controllers
             }
             return NotFound();
         }
-        public async Task<IActionResult> UpdateProduct(Sanphamvm sanpham)
-        {
-            using HttpClient client = _httpClientFactory.CreateClient();
-            using HttpResponseMessage response = await client.PutAsJsonAsync($"https://localhost:44308/api/SanPhamChiTiets", sanpham.SanPhamChiTiet);
-            if (response.IsSuccessStatusCode)
-            {
-                return RedirectToAction("Sanpham");
-            }
-            return NotFound();
-        }
+        
         public IActionResult Login()
         {
             return View();
