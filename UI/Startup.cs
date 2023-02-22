@@ -26,11 +26,10 @@ namespace UI
                 client =>
                 {
                     client.BaseAddress = new Uri("https://localhost:44308/");
-                });
-            
+                }
+            services.AddHttpClient();
+            services.AddSession(p => { p.IdleTimeout = TimeSpan.FromMinutes(30); });
         }
-
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -45,7 +44,7 @@ namespace UI
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

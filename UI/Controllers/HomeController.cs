@@ -9,7 +9,13 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using UI.Models;
+
 using UI.ViewModels;
+
+using DAL.Models;
+using UI.ViewModels;
+using Microsoft.AspNetCore.Http;
+
 
 namespace UI.Controllers
 {
@@ -29,6 +35,8 @@ namespace UI.Controllers
 
         public IActionResult Index()
         {
+            var thongtin = HttpContext.Session.GetString("email");
+            ViewData["thongtin"] = thongtin;
             return View();
         }
 
@@ -44,6 +52,7 @@ namespace UI.Controllers
         }
         public async Task<IActionResult> Sanpham()
         {
+
             string? httpClientName = _configuration["HttpClientName"];
             using HttpClient client = _httpClientFactory.CreateClient(httpClientName?? "");
             using HttpResponseMessage response = await client.GetAsync("api/SanPhamChiTiets");
@@ -95,9 +104,48 @@ namespace UI.Controllers
             return NotFound();
         }
         
+
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/SanPhamChiTiets");
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var list = new Sanphamvm() {sanPhamChiTiets = JsonConvert.DeserializeObject<List<SanPhamChiTiet>>(jsonResponse) }; 
+            if (response.IsSuccessStatusCode)
+            {
+                return View(list);
+            }
+            return View();
+        }
+        public async Task<IActionResult> AddProduct([Bind()]Sanphamvm product)
+        {       
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/SanPhamChiTiets", product.SanPhamChiTiet);
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Sanpham");
+            }
+            return NotFound();
+        }
+        public async Task<IActionResult> AddGiohang( GioHang gioHang)
+        {
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Giohangs",gioHang);
+            if (response.IsSuccessStatusCode)
+            {
+                return View();
+            }
+            return View();
+        }
+
+
         public IActionResult Login()
         {
+            HttpContext.Session.SetString("email","13123");
             return View();
+        }
+        public IActionResult hienThiEmail()
+        {
+            return RedirectToAction("Index");
+
         }
         public IActionResult Giohang()
         {
