@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace UI
 {
@@ -20,6 +21,7 @@ namespace UI
         {
             services.AddControllersWithViews();
             services.AddHttpClient();
+            services.AddSession(p => { p.IdleTimeout = TimeSpan.FromMinutes(30); });
         }
 
 
@@ -37,7 +39,7 @@ namespace UI
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

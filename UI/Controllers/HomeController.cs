@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using UI.Models;
 using DAL.Models;
 using UI.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace UI.Controllers
 {
@@ -26,6 +27,8 @@ namespace UI.Controllers
 
         public IActionResult Index()
         {
+            var thongtin = HttpContext.Session.GetString("email");
+            ViewData["thongtin"] = thongtin;
             return View();
         }
 
@@ -74,7 +77,13 @@ namespace UI.Controllers
 
         public IActionResult Login()
         {
+            HttpContext.Session.SetString("email","13123");
             return View();
+        }
+        public IActionResult hienThiEmail()
+        {
+            return RedirectToAction("Index");
+
         }
         public IActionResult Giohang()
         {
