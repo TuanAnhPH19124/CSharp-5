@@ -27,8 +27,7 @@ namespace UI.Controllers
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
 
-        }
-
+        }     
         public IActionResult Index()
         {
             return View();
