@@ -74,6 +74,15 @@ namespace UI.Controllers
             }
             return View();
         }
+        [HttpPost]
+        [Route("Home/Update/{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody]SanPhamChiTiet sanpham)
+        {
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.PutAsJsonAsync($"api/SanPhamChiTiets/{id}", sanpham);
+            response.EnsureSuccessStatusCode();
+            return Ok();
+        }
 
         public IActionResult Login()
         {
