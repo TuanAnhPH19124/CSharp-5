@@ -50,16 +50,14 @@
                     <tbody>
                         @foreach (var item in Model.sanPhamChiTiets)
                        {
-                            <tr>
+                       <tr>
                             <td>@item.TenSP</td>
                             <td>@item.SoLuong</td>
                             <td>@item.GiaNhap</td>
                             <td>@item.GianBan</td>
                             <td>@item.MoTa</td>
-
                             <td>
-                                @*<button type="button" class="btn btn-success"> Sửa </button>  
-*@                                <a asp-action="UpdateProduct" asp-route-id="@item.Id, @item.TenSP, @item.SoLuong, @item.GiaNhap, @item.GianBan, @item.TrangThai, @item.MoTa" class="btn btn-success">Sửa</a>
+                                <a asp-action="UpdateProduct" asp-route-id="@item.Id, @item.TenSP, @item.SoLuong, @item.GiaNhap, @item.GianBan, @item.TrangThai, @item.MoTa" class="btn btn-success">Sửa</a>
                                 <a asp-action="DeleteProduct" asp-route-id="@item.Id" class="btn btn-danger">Xóa</a>
                             </td>                              
                         </tr>

@@ -3,6 +3,7 @@ using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CSharp5.Controllers
@@ -23,7 +24,7 @@ namespace CSharp5.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NguoiDung>>> GetNguoiDungs()
         {
-            var query = _serivce.GetFirstOrDefault(include: x => x.Include(a => a.diaChis).ThenInclude(hd => hd.hoaDons).ThenInclude(sp => sp.sanPhamChiTiet));
+            var query = _serivce.GetFirstOrDefault(orderBy: x => x.OrderByDescending(t => t.Ten) ,include: x => x.Include(a => a.diaChis).ThenInclude(hd => hd.hoaDons).ThenInclude(sp => sp.sanPhamChiTiet));
             return await _serivce.GetAll2Async(query);
             //return await _serivce.GetAllAsync(x => x.diaChis);
             //return await _serivce.GetAllAsync();
