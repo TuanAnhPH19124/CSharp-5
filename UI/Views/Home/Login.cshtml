@@ -1,4 +1,12 @@
-﻿<br>
+﻿@using UI.ViewModels
+@model AccountVM
+
+
+
+
+
+
+<br>
 <br>
 <br>
 <br>
@@ -11,14 +19,14 @@
                             class="img-fluid" alt="Sample image">
                     </div>
                     <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-                        <form method="get" asp-controller="Home" asp-action="hienThiEmail">                          
+                        <form asp-controller="Home" asp-action="Login">                          
 
                             <!-- Email input -->
                             <div class="form-outline mb-4">
-                                <input type="text" id="loginName" class="form-control" placeholder="Tài Khoản *"  ng-required="true"/> 
+                                <input type="text" id="loginName" class="form-control" placeholder="Tài Khoản *"  ng-required="true" asp-for="Email"/> 
                               </div>
                               <div class="form-outline mb-4">
-                                <input type="password" id="loginPassword" class="form-control" placeholder="Mật Khẩu *"/>
+                                <input type="password" id="loginPassword" class="form-control" placeholder="Mật Khẩu *" asp-for="Pass"/>
                                 <p class="text_danger">Độ dài tối thiểu 8 kí tự</p>
                               </div>
                             <div class="d-flex justify-content-between align-items-center">
