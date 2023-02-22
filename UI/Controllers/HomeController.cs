@@ -1,4 +1,5 @@
-﻿using DAL.Models;
+﻿using DAL.Data;
+using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -9,18 +10,13 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using UI.Models;
-
 using UI.ViewModels;
-
-using DAL.Models;
-using UI.ViewModels;
-using Microsoft.AspNetCore.Http;
-
 
 namespace UI.Controllers
 {
     public class HomeController : Controller
     {
+        private DbContexts _db = new DbContexts();
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _httpClientFactory = null;
         private readonly IConfiguration _configuration = null;
@@ -35,11 +31,9 @@ namespace UI.Controllers
 
         public IActionResult Index()
         {
-            var thongtin = HttpContext.Session.GetString("email");
-            ViewData["thongtin"] = thongtin;
             return View();
         }
-
+        
         public IActionResult Privacy()
         {
             return View();
@@ -52,9 +46,8 @@ namespace UI.Controllers
         }
         public async Task<IActionResult> Sanpham()
         {
-
             string? httpClientName = _configuration["HttpClientName"];
-            using HttpClient client = _httpClientFactory.CreateClient(httpClientName?? "");
+            using HttpClient client = _httpClientFactory.CreateClient(httpClientName ?? "");
             using HttpResponseMessage response = await client.GetAsync("api/SanPhamChiTiets");
             //using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/SanPhamChiTiets");
             var jsonResponse = await response.Content.ReadAsStringAsync();
@@ -63,8 +56,8 @@ namespace UI.Controllers
             return View(list);
         }
 
-        public async Task<IActionResult> AddProduct([Bind()]Sanphamvm product)
-        {       
+        public async Task<IActionResult> AddProduct([Bind()] Sanphamvm product)
+        {
             using HttpClient client = _httpClientFactory.CreateClient();
             using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/SanPhamChiTiets", product.SanPhamChiTiet);
             if (response.IsSuccessStatusCode)
@@ -92,10 +85,9 @@ namespace UI.Controllers
             response.EnsureSuccessStatusCode();
             return Ok();
         }
-
         public async Task<IActionResult> DeleteProduct(int Id)
         {
-            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpClient client = _httpClientFactory.CreateClient();   
             using HttpResponseMessage response = await client.DeleteAsync($"https://localhost:44308/api/SanPhamChiTiets/{Id}");
             if (response.IsSuccessStatusCode)
             {
@@ -103,28 +95,13 @@ namespace UI.Controllers
             }
             return NotFound();
         }
-        public async Task<IActionResult> GetAllProduct()
+        public IActionResult Register()
         {
-            using HttpClient client = _httpClientFactory.CreateClient();
-            using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/SanPhamChiTiets");
-            var jsonResponse = await response.Content.ReadAsStringAsync();
-            var list = new Sanphamvm() { sanPhamChiTiets = JsonConvert.DeserializeObject<List<SanPhamChiTiet>>(jsonResponse) };
-            if (response.IsSuccessStatusCode)
-            {
-                return View(list);
-            }
             return View();
         }
-
         public IActionResult Login()
         {
-            HttpContext.Session.SetString("email","13123");
             return View();
-        }
-        public IActionResult hienThiEmail()
-        {
-            return RedirectToAction("Index");
-
         }
         public IActionResult Giohang()
         {
