@@ -36,7 +36,7 @@
             </form>
             <br>
             <div>
-                <table class="table table-striped">
+                <table id="myTable" class="table table-striped">
                     <thead>
                         <tr>
                             <td>Tên sản phẩm</td>
@@ -50,6 +50,13 @@
                     <tbody>
                         @foreach (var item in Model.sanPhamChiTiets)
                        {
+
+                       <tr data-id="@item.Id">
+                                <td contenteditable="true">@item.TenSP</td>
+                                <td contenteditable="true">@item.SoLuong</td>
+                                <td contenteditable="true">@item.GiaNhap</td>
+                                <td contenteditable="true">@item.GianBan</td>
+                                <td contenteditable="true">@item.MoTa</td>
                             <tr>
                             <td>@item.TenSP</td>
                             <td>@item.SoLuong</td>
@@ -58,8 +65,8 @@
                             <td>@item.MoTa</td>
 
                             <td>
-                                <button type="button" class="btn btn-success"> Sửa </button>         
-                                <button type="button" class="btn btn-danger"> Xoá </button> 
+                               <a data-id="@item.Id" data-idsp="@item.Id_SP" class="update-button btn btn-danger "> Edit </a>
+                                <a asp-action="DeleteProduct" asp-route-id="@item.Id" class="btn btn-danger">Xóa</a>
                             </td>                              
                         </tr>
                        }                
@@ -68,3 +75,63 @@
             </div>
         </div>
 </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    document.addEventListener("DOMContentLoaded", function(){
+        var buttons = document.querySelectorAll(".update-button");
+        buttons.forEach(function(button){
+            button.addEventListener("click", function(event){
+                event.preventDefault();
+
+                var id = button.getAttribute("data-id");
+                var idsp = button.getAttribute("data-idsp");              
+                updateRow(id, idsp);
+            })
+        })
+    });
+    function updateRow(id, idsp){
+
+        var row = document.getElementById("myTable").querySelector("tr[data-id='" + id + "']")
+        var tensp = row.querySelector("td:nth-child(1)").textContent;
+        var Soluong = row.querySelector("td:nth-child(2)").textContent;
+        var gianhap = row.querySelector("td:nth-child(3)").textContent;
+        var giaban = row.querySelector("td:nth-child(4)").textContent;
+        var mota = row.querySelector("td:nth-child(5)").textContent;
+        //var giamgia = row.querySelector("td:nth-child(6)").textContent;
+        //var trangthai = row.querySelector("td:nth-child(7)").textContent;
+       
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/Home/Update/" + id);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onload = function(){
+            if (xhr.status === 200){
+                Toast.fire({
+                        icon: 'success',
+                        title: 'Cap nhat thanh cong'
+                    })
+            }else{
+                Toast.fire({
+                        icon: 'error',
+                        title: 'Cap nhat that bai'
+                    })
+            }
+        };
+        xhr.send(JSON.stringify({ Id: id, TenSP: tensp, MoTa: mota, GiaNhap: gianhap, GianBan: giaban, SoLuong: Soluong, Id_SP: idsp }));
+        
+    }
+  
+</script>
