@@ -38,6 +38,8 @@ namespace UI.Controllers
 
         public IActionResult Index()
         {
+            var thongtin = HttpContext.Session.GetString("email");
+            ViewData["thongtin"] = thongtin;
             return View();
         }
         

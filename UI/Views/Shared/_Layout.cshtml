@@ -19,7 +19,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" style="padding-right:300px">
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" style="padding-right:100px">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
@@ -33,24 +33,28 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Giohang">Giỏ Hàng</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Đăng Nhập</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Register">Đăng Kí</a>
-                        </li>
+                        @if (email == null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login">Đăng Nhập</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Register">Đăng Kí</a>
+                            </li>
+                        }
                     </ul>
                 </div>
+             
  @if (email != null)
             {
              <li class="nav-item" style="list-style-type: none;">
                  <a class="nav-link text-dark" asp-area="" >@email</a>
              </li>
              <li class="nav-item"  style="list-style-type: none;">
-                <a class="nav-link text-dark" asp-controller="Home" asp-action="Logout" >Đăng xuất</a>
+                <a class="nav-link text-dark" asp-controller="Home" asp-action="LogOut" >Đăng xuất</a>
             </li>
             }
-            </div>
+
         </nav>
     </header>
      <main role="main" class="pb-3"> @RenderBody()</main>
