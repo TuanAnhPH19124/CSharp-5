@@ -34,6 +34,8 @@ namespace UI.Controllers
         }     
         public IActionResult Index()
         {
+            var thongtin = HttpContext.Session.GetString("email");
+            ViewData["thongtin"] = thongtin;
             return View();
         }
         
@@ -118,8 +120,8 @@ namespace UI.Controllers
             {
                 return NotFound();
             }
-            HttpContext.Session.SetString("email",vM.Email);
-            return RedirectToAction("Index");
+            HttpContext.Session.SetString("email",vM.Email);          
+           return RedirectToAction("Index");
         }
 
 
