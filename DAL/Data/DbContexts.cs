@@ -5,6 +5,7 @@ namespace DAL.Data
 {
     public class DbContexts : DbContext
     {
+       
         public DbContexts()
         {
 
@@ -15,10 +16,8 @@ namespace DAL.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder.UseSqlServer("Data Source = LONGNT; Initial Catalog = Csharp5; Integrated Security = True; Pooling=False"));
-
+            base.OnConfiguring(optionsBuilder.UseSqlServer(@"Data Source = LONGNT; Initial Catalog = csharp5-thucungshop; Integrated Security = True; Pooling=False"));
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<DiaChi>().HasOne(p => p.nguoiDung).WithMany(n => n.diaChis).HasForeignKey(p => p.Id_Nguoidung);

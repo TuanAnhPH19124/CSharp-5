@@ -1,59 +1,124 @@
-﻿@model List<SanPham>
-
-
-
+﻿@using UI.ViewModels
+@model Sanphamvm
 
 <div class="container">  
         <div >
-            <form id="form_create_product">
+            <form asp-action="AddProduct" id="form_create_product">
                 <h2 style="text-align: center; font-weight: 800;">Quản lý sản phẩm</h2>
-                <input type="text" style="display: none" />
+                <label>Id Sản phẩm</label>
+                <input asp-for="SanPhamChiTiet.Id_SP" type="text" class="form-control" required/>     
+                <br>
                 <label>Tên sản phẩm</label>
-                <input type="text" class="form-control" required/>
+                <input asp-for="SanPhamChiTiet.TenSP" type="text" class="form-control" required/>
                 <br />
                 <label>Số lượng</label>
-                <input type="text" class="form-control" required/>
+                <input asp-for="SanPhamChiTiet.SoLuong" type="text" class="form-control" required/>
                 <br />
                 <label>Giá nhập</label>
-                <input type="text" class="form-control" required/>
+                <input asp-for="SanPhamChiTiet.GiaNhap" type="text" class="form-control" required/>
                 <br />
                 <label>Giá bán</label>
-                <input type="text" class="form-control" id="giaBan"/>
+                <input asp-for="SanPhamChiTiet.GianBan" type="text" class="form-control" id="giaBan"/>
+                <br />               
+                <label>Trạng thái</label>
+                <input asp-for="SanPhamChiTiet.TrangThai" type="text" class="form-control" id="trangThai">
+                <br />
+                <label>Id giảm giá</label>
+                <input asp-for="SanPhamChiTiet.Id_GiamGia" type="text" class="form-control" id="idGiamgia">
                 <br />
                 <label>Mô tả</label>
-                <textarea class="form-control" id="my-textarea" name="" rows="3"></textarea>
+                <input asp-for="SanPhamChiTiet.MoTa" type="text" class="form-control" id="MoTa">
                 <br />
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"
-                        style="margin: 10px">Thêm</button>
+                    <input type="submit" class="btn btn-primary"
+                        style="margin: 10px" value="Thêm">
                 </div>
             </form>
             <br>
             <div>
-                <table class="table table-striped">
+                <table id="myTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <td>Id</td>
-                            <td>Thể loại</td>
-                            <td>Danh mục</td>                       
-                            <td width="200">Action</td>                             
+                            <td>Tên sản phẩm</td>
+                            <td>Số lượng</td>
+                            <td>Gia nhập</td>
+                            <td>Gia bán</td>
+                            <td>Mô tả</td>                     
                         </tr>
                     </thead>         
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.sanPhamChiTiets)
                        {
-                            <tr>
-                            <td>@item.Id</td>
-                            <td>@item.TheLoai</td>
-                            <td>@item.DanhMuc</td>
-                            <td>
-                                <button type="button" class="btn btn-success"> Sửa </button>         
-                                <button type="button" class="btn btn-danger"> Xoá </button> 
-                            </td>                              
-                        </tr>
+                            <tr data-id="@item.Id" >
+                                <td contenteditable="true">@item.TenSP</td>
+                                <td contenteditable="true">@item.SoLuong</td>
+                                <td contenteditable="true">@item.GiaNhap</td>
+                                <td contenteditable="true">@item.GianBan</td>
+                                <td contenteditable="true">@item.MoTa</td>
+                                <td>
+                                    <a data-id="@item.Id" data-idsp="@item.Id_SP" class="update-button btn btn-danger "> Edit </a>
+                                    <a asp-action="DeleteProduct" asp-route-id="@item.Id" class="btn btn-danger">Xóa</a>
+                                </td>                              
+                            </tr>
                        }                
                     </tbody>                   
                 </table>
             </div>
         </div>
 </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+    document.addEventListener("DOMContentLoaded", function(){
+        var buttons = document.querySelectorAll(".update-button");
+        buttons.forEach(function(button){
+            button.addEventListener("click", function(event){
+                event.preventDefault();
+                var id = button.getAttribute("data-id");
+                var idsp = button.getAttribute("data-idsp");              
+                updateRow(id, idsp);
+            })
+        })
+    });
+    function updateRow(id, idsp){
+        var row = document.getElementById("myTable").querySelector("tr[data-id='" + id + "']")
+        var tensp = row.querySelector("td:nth-child(1)").textContent;
+        var Soluong = row.querySelector("td:nth-child(2)").textContent;
+        var gianhap = row.querySelector("td:nth-child(3)").textContent;
+        var giaban = row.querySelector("td:nth-child(4)").textContent;
+        var mota = row.querySelector("td:nth-child(5)").textContent;
+        //var giamgia = row.querySelector("td:nth-child(6)").textContent;
+        //var trangthai = row.querySelector("td:nth-child(7)").textContent;
+       
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/Home/Update/" + id);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.onload = function(){
+            if (xhr.status === 200){
+                Toast.fire({
+                        icon: 'success',
+                        title: 'Cap nhat thanh cong'
+                    })
+            }else{
+                Toast.fire({
+                        icon: 'error',
+                        title: 'Cap nhat that bai'
+                    })
+            }
+        };
+        xhr.send(JSON.stringify({ Id: id, TenSP: tensp, MoTa: mota, GiaNhap: gianhap, GianBan: giaban, SoLuong: Soluong, Id_SP: idsp }));
+        
+    }
+  
+</script>
