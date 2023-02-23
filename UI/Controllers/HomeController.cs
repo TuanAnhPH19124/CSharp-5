@@ -11,9 +11,6 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using UI.Models;
 using UI.ViewModels;
-
-using DAL.Models;
-using UI.ViewModels;
 using Microsoft.AspNetCore.Http;
 using DAL.IServices;
 using System.Linq;
