@@ -11,9 +11,6 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using UI.Models;
 using UI.ViewModels;
-
-using DAL.Models;
-using UI.ViewModels;
 using Microsoft.AspNetCore.Http;
 using DAL.IServices;
 using System.Linq;
@@ -34,8 +31,7 @@ namespace UI.Controllers
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
 
-        }
-
+        }     
         public IActionResult Index()
         {
             return View();
