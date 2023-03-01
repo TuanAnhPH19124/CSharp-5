@@ -1,41 +1,58 @@
 ﻿@model List<GioHang>
+
 <br>
 <div class="container">
     <h1>GIỎ HÀNG</h1> <br>
     <table class="table table-bordered">
         <thead>
             <tr>
-                @*        <th scope="col">STT</th>*@
+
                 <th scope="col">Sản phẩm</th>
                 <th scope="col">Gia tiền</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Thành tiền</th>
-                @*                <th scope="col">Active</th>*@
+
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    @*  <td>@item.Id</td>*@
+                <tr data-id="@item.Id">
                     <td>@item.sanPhamChiTiet.TenSP</td>
-                    <td>@item.sanPhamChiTiet.GianBan</td>
-                    <td><input type="number" value="@item.SoLuong" ></td>
-                    <td>@(item.sanPhamChiTiet.GianBan*item.SoLuong)</td>
+                    <td id="gia">@item.sanPhamChiTiet.GianBan</td>
+                    <td><input type="number" value="@item.SoLuong" onchange="myFunction(@item.Id)" class="soluong"></td>
+                    <td class="thanhtien">@(item.sanPhamChiTiet.GianBan*item.SoLuong)</td>
                     <td>
-                        <button type="button" class="btn btn-danger">Xoá</button>
+                        <a class="btn btn-danger" asp-action="DeleteCart" asp-route-id="@item.Id">Xoá</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
     <div class="total payment">
-        <span>Tổng tiền:</span> <br>
+        <span id="tongtien">Tổng tiền:</span> <br>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary">Thanh Toán</button>
     </div>
     <script>
+        function myFunction(id) {
+            var row=document.querySelector("tr[data-id='" + id + "']")
+            var gia=row.querySelector("td:nth-child(2)").innerHTML
+            var soluong=row.querySelector("td:nth-child(3)");
+            var sl = soluong.querySelector("input:nth-child(1)");
 
+            if(sl.value<0){
+                sl.value=0;
+            }
+            row.querySelector("td:nth-child(4)").innerHTML=gia*sl.value;
+            var thanhtiens = document.getElementsByClassName("thanhtien");
+            var tien=0;
+            for(let i=0;i<thanhtiens.length;i++){
+                tien+=parseInt(thanhtiens[i].innerHTML)
+            }
+            document.getElementById("tongtien").innerHTML="Tổng tiền: "+tien;
+            console.log(tien)
+            }
     </script>
 </div>

@@ -173,6 +173,18 @@ namespace UI.Controllers
             response.EnsureSuccessStatusCode();
             return View(list);
         }
+        public async Task<IActionResult> DeleteCart(int Id)
+        {
+            var thongtin = HttpContext.Session.GetString("email");
+            ViewData["thongtin"] = thongtin;
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.DeleteAsync($"https://localhost:44308/api/GioHangs/{Id}");
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Giohang");
+            }
+            return NotFound();
+        }
         public IActionResult Banggia()
         {
             var thongtin = HttpContext.Session.GetString("email");
