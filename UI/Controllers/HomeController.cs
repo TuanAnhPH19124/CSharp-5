@@ -17,6 +17,7 @@ using UI.ViewModels;
 using Microsoft.AspNetCore.Http;
 using DAL.IServices;
 using System.Linq;
+using System;
 
 namespace UI.Controllers
 {
@@ -36,11 +37,19 @@ namespace UI.Controllers
 
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var thongtin = HttpContext.Session.GetString("email");
             ViewData["thongtin"] = thongtin;
-            return View();
+
+            string? httpClientName = _configuration["HttpClientName"];
+            using HttpClient client = _httpClientFactory.CreateClient(httpClientName ?? "");
+            using HttpResponseMessage response = await client.GetAsync("api/SanPhamChiTiets");
+            //using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/SanPhamChiTiets");
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var list = new Sanphamvm() { sanPhamChiTiets = JsonConvert.DeserializeObject<List<SanPhamChiTiet>>(jsonResponse) };
+            response.EnsureSuccessStatusCode();
+            return View(list);
         }
         
         public IActionResult Privacy()
@@ -119,10 +128,23 @@ namespace UI.Controllers
             using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/NguoiDungs");
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var list = JsonConvert.DeserializeObject<IEnumerable<NguoiDung>>(jsonResponse);
-            var user = list.Where(ng => ng.Email == vM.Email && ng.Password == vM.Pass);
-            if (user == null)
+            var user = list.FirstOrDefault(ng => ng.Email == vM.Email && ng.Password == vM.Pass);
+            if (user!=null)
             {
-                return NotFound();
+                var gh = user.gioHangs.Count();
+
+                if (gh == 0)
+                {
+                    HttpContext.Session.SetString("idGH", Guid.NewGuid().ToString());
+                }
+                else
+                {
+                    var id = user.gioHangs.First();
+                    HttpContext.Session.SetString("idGH", id.IdGioHang.ToString());
+
+                }
+
+                return View();
             }
             HttpContext.Session.SetString("email",vM.Email);
             return RedirectToAction("Index");
