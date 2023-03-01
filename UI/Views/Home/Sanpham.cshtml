@@ -12,7 +12,7 @@
                 <input asp-for="SanPhamChiTiet.TenSP" type="text" class="form-control" required/>
                 <br />
                 <label>Số lượng</label>
-                <input asp-for="SanPhamChiTiet.SoLuong" type="text" class="form-control" required/>
+                <input asp-for="SanPhamChiTiet.SoLuong" type="number" class="form-control" required/>
                 <br />
                 <label>Giá nhập</label>
                 <input asp-for="SanPhamChiTiet.GiaNhap" type="text" class="form-control" required/>
@@ -28,21 +28,23 @@
                 <br />
                 <label>Mô tả</label>
                 <input asp-for="SanPhamChiTiet.MoTa" type="text" class="form-control" id="MoTa">
+                <label>Hình ảnh</label>
+                <input asp-for="SanPhamChiTiet.hinhAnhsps" type="image" class="form-control" id="hinhAnhsps">
                 <br />
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary"
-                        style="margin: 10px" value="Thêm">
+                   <input type="submit" class="btn btn-primary" style="margin: 10px" value="Thêm">                     
                 </div>
             </form>
             <br>
             <div>
-                <table id="myTable" class="table table-striped">
+                <table id="myTable" class="table table-striped" style="border:1px solid black">
                     <thead>
                         <tr>
                             <td>Tên sản phẩm</td>
                             <td>Số lượng</td>
                             <td>Gia nhập</td>
                             <td>Gia bán</td>
+                            <td>Hình ảnh</td>
                             <td>Mô tả</td>                     
                         </tr>
                     </thead>         
@@ -54,6 +56,7 @@
                                 <td contenteditable="true">@item.SoLuong</td>
                                 <td contenteditable="true">@item.GiaNhap</td>
                                 <td contenteditable="true">@item.GianBan</td>
+                                <td contenteditable="true">@item.hinhAnhSPs</td>
                                 <td contenteditable="true">@item.MoTa</td>
                                 <td>
                                     <a data-id="@item.Id" data-idsp="@item.Id_SP" class="update-button btn btn-danger "> Edit </a>

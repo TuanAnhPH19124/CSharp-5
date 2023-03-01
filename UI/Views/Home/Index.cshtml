@@ -1,4 +1,7 @@
-﻿    <div class="container">
+﻿@model List<SanPhamChiTiet> 
+ 
+
+ <div class="container">
         <section class="welcomeheader">
             <div class="title" style="text-align:center; font-weight:600" >
             <h2>
@@ -102,7 +105,7 @@
                             <a href="#">
                                 <img class="lazyload loaded" width="130" height="130" style="padding-left:35px" src="img/Nuocruamat.jpg">
                             </a>
-                        </div>
+border                 </div>
                         <div class="product_info">
                             <h3 class="product_name">
                                 <a href="#" title="Nước rửa mắt" style="font-size:large; font-weight:500; color:black; text-align:center">Nước nhỏ mắt</a>
@@ -172,87 +175,35 @@
                     </h2>
                           <ul class="nav justify-content-center">
                           <li class="nav-item">
-                            <a class="nav-link" href="#">Thức ăn cho chó</a>
+                            <a class="nav-link" >Thức ăn cho chó</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" href="#">Thức ăn cho mèo</a>
+                            <a class="nav-link" >Thức ăn cho mèo</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" href="#">Thức ăn cho hamster</a>
+                            <a class="nav-link" >Thức ăn cho hamster</a>
                           </li>
                           <li class="nav-item">
-                            <a class="nav-link" href="#">Thức ăn cho chim</a>
+                            <a class="nav-link" >Thức ăn cho chim</a>
                           </li>
                         </ul> <br ><br >                      
                       <div class="container text-center">
                       <div class="row row-cols-4">
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                              <img src="~/img/suabot.jpg" class="card-img-top" alt="...">
-                              <div class="card-body">
-                                <h5 class="card-title">Sữa bột dành cho chó mèo</h5>
-                                <p class="card-text">258.000đ</p>
-                                <a href="#" class="btn btn-primary">Mua ngay</a>
-                              </div>
+                      @foreach (var item in Model)
+                      {
+                            <div class="col pb-2" >
+                                <div class="card" style="width: 18rem;">
+                                    <img src="~/img/suabot.jpg" class="card-img-top" >
+                                    <div class="card-body">
+                                        <h5 class="card-title">@item.TenSP</h5>
+                                        <p class="card-text">@item.GianBan đ</p>
+                                        <a class="btn btn-primary">Mua ngay</a>
+                                    </div>
+                                </div>
                             </div>
+                      }                        
                         </div>
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                              <img src="~/img/bosungcanxi.jpg" class="card-img-top" alt="...">
-                              <div class="card-body">
-                                <h5 class="card-title">Thực phẩm bổ sung canxi</h5>
-                                <p class="card-text">198.000đ</p>
-                                <a href="#" class="btn btn-primary">Mua ngay</a>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                              <img src="~/img/Nuocruamat.jpg" class="card-img-top" alt="...">
-                              <div class="card-body">
-                                <h5 class="card-title">Nước rửa mắt</h5>
-                                <p class="card-text">98.000đ</p>
-                                <a href="#" class="btn btn-primary">Mua ngay</a>
-                              </div>
-                            </div>
-                        </div>
-                        </div>
-                      </div>
-                    </div> <br>
-                     <div class="container text-center">
-                      <div class="row row-cols-4">
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                              <img src="~/img/dochoi.jpg" class="card-img-top" alt="...">
-                              <div class="card-body">
-                                <h5 class="card-title">Đồ chơi </h5>
-                                <p class="card-text">50.000đ</p>
-                                <a href="#" class="btn btn-primary">Mua ngay</a>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                              <img src="~/img/gel.jpg" class="card-img-top" alt="...">
-                              <div class="card-body">
-                                <h5 class="card-title">Gel vệ sinh</h5>
-                                <p class="card-text">80.000đ</p>
-                                <a href="#" class="btn btn-primary">Mua ngay</a>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                              <img src="~/img/balo.jpg" class="card-img-top" alt="...">
-                              <div class="card-body">
-                                <h5 class="card-title">Balo dành cho chó mèo</h5>
-                                <p class="card-text">165.000đ</p>
-                                <a href="#" class="btn btn-primary">Mua ngay</a>
-                              </div>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
+                      <br>
                 </div>
             </div>
         </section>
