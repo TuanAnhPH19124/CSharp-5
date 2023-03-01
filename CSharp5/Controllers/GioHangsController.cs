@@ -3,6 +3,7 @@ using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CSharp5.Controllers
@@ -22,7 +23,8 @@ namespace CSharp5.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<GioHang>>> GetgioHangs()
         {
-            return await _service.GetAllAsync();
+            var query = _service.GetFirstOrDefault(include: x => x.Include(a => a.sanPhamChiTiet));
+            return await _service.GetAll2Async(query);
         }
 
         // GET: api/GioHangs/5
