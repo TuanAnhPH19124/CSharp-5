@@ -1,4 +1,4 @@
-﻿using DAL.Data;
+using DAL.Data;
 using DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -132,6 +132,11 @@ namespace UI.Controllers
             using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/NguoiDungs");
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var list = JsonConvert.DeserializeObject<IEnumerable<NguoiDung>>(jsonResponse);
+            var user = list.Where(ng => ng.Email == vM.Email && ng.Password == vM.Pass).ToList();
+            if (user.Count==0)
+            {
+                ViewBag.error = "Login failed";
+                return RedirectToAction("Login");
             var user = list.FirstOrDefault(ng => ng.Email == vM.Email && ng.Password == vM.Pass);
             if (user!=null)
             {
