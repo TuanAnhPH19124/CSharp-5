@@ -11,9 +11,6 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using UI.Models;
 using UI.ViewModels;
-
-using DAL.Models;
-using UI.ViewModels;
 using Microsoft.AspNetCore.Http;
 using DAL.IServices;
 using System.Linq;
@@ -35,21 +32,17 @@ namespace UI.Controllers
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
 
-        }
-
+        }     
         public async Task<IActionResult> Index()
         {
             var thongtin = HttpContext.Session.GetString("email");
             ViewData["thongtin"] = thongtin;
-
-            string? httpClientName = _configuration["HttpClientName"];
-            using HttpClient client = _httpClientFactory.CreateClient(httpClientName ?? "");
-            using HttpResponseMessage response = await client.GetAsync("api/SanPhamChiTiets");
-            //using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/SanPhamChiTiets");
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/SanPhamChiTiets");
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var list = new Sanphamvm() { sanPhamChiTiets = JsonConvert.DeserializeObject<List<SanPhamChiTiet>>(jsonResponse) };
+            var list = JsonConvert.DeserializeObject<List<SanPhamChiTiet>>(jsonResponse);
             response.EnsureSuccessStatusCode();
-            return View(list);
+            return View(list); 
         }
         
         public IActionResult Privacy()
@@ -146,8 +139,8 @@ namespace UI.Controllers
 
                 return View();
             }
-            HttpContext.Session.SetString("email",vM.Email);
-            return RedirectToAction("Index");
+            HttpContext.Session.SetString("email",vM.Email);          
+           return RedirectToAction("Index");
         }
 
 

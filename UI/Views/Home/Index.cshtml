@@ -1,4 +1,7 @@
-﻿    <div class="container">
+﻿@model List<SanPhamChiTiet> 
+ 
+
+ <div class="container">
         <section class="welcomeheader">
             <div class="title" style="text-align:center; font-weight:600" >
             <h2>
@@ -13,7 +16,7 @@
                         <div class="box_welcome">
                             <div class="image_welcome">
                                 <a href="#">
-                                    <img src="img/dog.jpg"></img>
+                                    <img src="img/dog.jpg">
                                 </a>
                             </div>
                         </div>
@@ -28,7 +31,7 @@
                         <div class="box_welcome">
                             <div class="image_welcome">
                                 <a href="#">
-                                    <img src="img/cat.jpg"></img>
+                                    <img src="img/cat.jpg">
                                 </a>
                             </div>
                         </div>
@@ -43,7 +46,7 @@
                         <div class="box_welcome">
                             <div class="image_welcome">
                                 <a href="#">
-                                    <img src="img/hamster.jpg"></img>
+                                    <img src="img/hamster.jpg">
                                 </a>
                             </div>
                         </div>
@@ -58,7 +61,7 @@
                         <div class="box_welcome">
                             <div class="image_welcome">
                                 <a href="#">
-                                    <img src="img/bird.jpg"></img>
+                                    <img src="img/bird.jpg">
                                 </a>
                             </div>
                         </div>
@@ -186,41 +189,24 @@
                         </ul> <br ><br >                      
                       <div class="container text-center">
                       <div class="row row-cols-4">
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                              <img src="~/img/suabot.jpg" class="card-img-top" alt="...">
-                              <div class="card-body">
-                                <h5 class="card-title">Sữa bột dành cho chó mèo</h5>
-                                <p class="card-text">258.000đ</p>
-                                <a href="#" class="btn btn-primary">Mua ngay</a>
-                              </div>
+                          @foreach (var item in Model)
+                        {
+                            <div class="col pb-2">
+                                <div class="card" style="width: 18rem;">
+                                    <img src="~/img/suabot.jpg" class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@item.TenSP</h5>
+                                        <p class="card-text">@item.GianBan đ</p>
+                                        <a href="#" class="btn btn-primary">Mua ngay</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                              <img src="~/img/bosungcanxi.jpg" class="card-img-top" alt="...">
-                              <div class="card-body">
-                                <h5 class="card-title">Thực phẩm bổ sung canxi</h5>
-                                <p class="card-text">198.000đ</p>
-                                <a href="#" class="btn btn-primary">Mua ngay</a>
-                              </div>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                              <img src="~/img/Nuocruamat.jpg" class="card-img-top" alt="...">
-                              <div class="card-body">
-                                <h5 class="card-title">Nước rửa mắt</h5>
-                                <p class="card-text">98.000đ</p>
-                                <a href="#" class="btn btn-primary">Mua ngay</a>
-                              </div>
-                            </div>
-                        </div>
-                      @*<div class="col">Column</div>*@
+                        }
+                        
                         </div>
                       </div>
                     </div> <br>
-                     <div class="container text-center">
+                    @* <div class="container text-center">
                       <div class="row row-cols-4">
                         <div class="col">
                             <div class="card" style="width: 18rem;">
@@ -252,9 +238,8 @@
                               </div>
                             </div>
                         </div>
-                        @*<div class="col">Column</div>*@
                       </div>
-                    </div>
+                    </div>*@
                 </div>
             </div>
         </section>
