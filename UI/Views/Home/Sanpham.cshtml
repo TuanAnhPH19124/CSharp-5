@@ -12,13 +12,13 @@
                 <input asp-for="SanPhamChiTiet.TenSP" type="text" class="form-control" required/>
                 <br />
                 <label>Số lượng</label>
-                <input asp-for="SanPhamChiTiet.SoLuong" type="text" class="form-control" required/>
+                <input asp-for="SanPhamChiTiet.SoLuong" type="number" class="form-control" required/>
                 <br />
                 <label>Giá nhập</label>
-                <input asp-for="SanPhamChiTiet.GiaNhap" type="text" class="form-control" required/>
+                <input asp-for="SanPhamChiTiet.GiaNhap" type="number" class="form-control" required/>
                 <br />
                 <label>Giá bán</label>
-                <input asp-for="SanPhamChiTiet.GianBan" type="text" class="form-control" id="giaBan"/>
+                <input asp-for="SanPhamChiTiet.GianBan" type="number" class="form-control" id="giaBan"/>
                 <br />               
                 <label>Trạng thái</label>
                 <input asp-for="SanPhamChiTiet.TrangThai" type="text" class="form-control" id="trangThai">
@@ -30,19 +30,18 @@
                 <input asp-for="SanPhamChiTiet.MoTa" type="text" class="form-control" id="MoTa">
                 <br />
                 <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary"
-                        style="margin: 10px" value="Thêm">
+                    <input type="submit" class="btn btn-primary" style="margin: 10px" value="Thêm">                   
                 </div>
             </form>
             <br>
             <div>
-                <table id="myTable" class="table table-striped">
+                <table id="myTable" class="table table-striped" style="border:1px solid #BFEFFF">
                     <thead>
                         <tr>
                             <td>Tên sản phẩm</td>
                             <td>Số lượng</td>
-                            <td>Gia nhập</td>
-                            <td>Gia bán</td>
+                            <td>Giá nhập</td>
+                            <td>Giá bán</td>
                             <td>Mô tả</td>                     
                         </tr>
                     </thead>         
@@ -56,7 +55,7 @@
                                 <td contenteditable="true">@item.GianBan</td>
                                 <td contenteditable="true">@item.MoTa</td>
                                 <td>
-                                    <a data-id="@item.Id" data-idsp="@item.Id_SP" class="update-button btn btn-danger "> Edit </a>
+                                    <a data-id="@item.Id" data-idsp="@item.Id_SP" class="update-button btn btn-danger"> Sửa </a>
                                     <a asp-action="DeleteProduct" asp-route-id="@item.Id" class="btn btn-danger">Xóa</a>
                                 </td>                              
                             </tr>

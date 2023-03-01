@@ -6,12 +6,10 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-
                 <th scope="col">Sản phẩm</th>
-                <th scope="col">Gia tiền</th>
+                <th scope="col">Giá tiền</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Thành tiền</th>
-
             </tr>
         </thead>
         <tbody>
@@ -20,21 +18,24 @@
                 <tr data-id="@item.Id">
                     <td>@item.sanPhamChiTiet.TenSP</td>
                     <td id="gia">@item.sanPhamChiTiet.GianBan</td>
-                    <td><input type="number" value="@item.SoLuong" onchange="myFunction(@item.Id)" class="soluong"></td>
-                    <td class="thanhtien">@(item.sanPhamChiTiet.GianBan*item.SoLuong)</td>
                     <td>
+                        <input type="number" value="@item.SoLuong" onchange="myFunction(@item.Id)" class="soluong">
+                    </td>
+                    <td class="thanhtien">@(item.sanPhamChiTiet.GianBan*item.SoLuong)</td>
+                    <td style="text-align:center">
                         <a class="btn btn-danger" asp-action="DeleteCart" asp-route-id="@item.Id">Xoá</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    <div class="total payment">
-        <span id="tongtien">Tổng tiền:</span> <br>
+    <div class="total payment"> <br />
+        <span id="tongtien">Tổng tiền :</span> <br>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary">Thanh Toán</button>
     </div>
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-angle-left me-2"></i> Back to shopping</a>
     <script>
         function myFunction(id) {
             var row=document.querySelector("tr[data-id='" + id + "']")
