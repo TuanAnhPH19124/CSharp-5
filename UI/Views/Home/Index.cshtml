@@ -197,7 +197,7 @@ border                 </div>
                                     <div class="card-body">
                                         <h5 class="card-title">@item.TenSP</h5>
                                         <p class="card-text">@item.GianBan đ</p>
-                                        <a class="btn btn-primary">Mua ngay</a>
+                                        <a  class="btn btn-primary" asp-controller="Home" asp-action="AddGiohang" asp-route-id="@item.Id">Mua ngay</a>
                                     </div>
                                 </div>
                             </div>
