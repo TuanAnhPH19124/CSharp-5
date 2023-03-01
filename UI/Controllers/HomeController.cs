@@ -32,9 +32,16 @@ namespace UI.Controllers
             _configuration = configuration;
 
         }     
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var thongtin = HttpContext.Session.GetString("email");
+            ViewData["thongtin"] = thongtin;
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/SanPhamChiTiets");
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var list = JsonConvert.DeserializeObject<List<SanPhamChiTiet>>(jsonResponse);
+            response.EnsureSuccessStatusCode();
+            return View(list); 
         }
         
         public IActionResult Privacy()
@@ -118,8 +125,8 @@ namespace UI.Controllers
             {
                 return NotFound();
             }
-            HttpContext.Session.SetString("email",vM.Email);
-            return RedirectToAction("Index");
+            HttpContext.Session.SetString("email",vM.Email);          
+           return RedirectToAction("Index");
         }
 
 
