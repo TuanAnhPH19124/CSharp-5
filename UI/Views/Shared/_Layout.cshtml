@@ -19,7 +19,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" style="padding-right:300px">
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" style="padding-right:280px">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Trang chủ</a>
@@ -28,11 +28,12 @@
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Sanpham">Sản phẩm</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Banggia">Bảng giá</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Datlich">Đặt lịch</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Giohang">Giỏ Hàng</a>
                         </li>
+
                         @if (email == null)
                         {
                             <li class="nav-item">
@@ -47,16 +48,15 @@
 
                 @if (email != null)
                 {
-                    <ul>
-                        <li class="nav-item" style="list-style-type: none;">
-                            <a class="nav-link text-dark" asp-area="">@email</a>
-                        </li>
-                        <li class="nav-item" style="list-style-type: none;">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="LogOut">Đăng xuất</a>
-                        </li>
-                    </ul>
-
+                    <li class="d-xl-flex" style="list-style-type: none">
+                        <a class="nav-link text-dark" asp-area="">@email</a>
+                    </li>
+                    <li class="d-xl-flex" style="list-style-type: none">
+                        <a class="nav-link text-dark" asp-controller="Home" asp-action="LogOut">Đăng xuất</a>
+                    </li>
                 }
+
+
 
         </nav>
     </header>

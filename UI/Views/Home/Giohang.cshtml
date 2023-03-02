@@ -6,10 +6,10 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th scope="col">Sản phẩm</th>
-                <th scope="col">Giá tiền</th>
-                <th scope="col">Số lượng</th>
-                <th scope="col">Thành tiền</th>
+                <th>Sản phẩm</th>
+                <th>Giá tiền</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
             </tr>
         </thead>
         <tbody>
@@ -19,7 +19,7 @@
                     <td>@item.sanPhamChiTiet.TenSP</td>
                     <td id="gia">@item.sanPhamChiTiet.GianBan</td>
                     <td>
-                        <input type="number" value="@item.SoLuong" onchange="myFunction(@item.Id)" class="soluong">
+                        <input style="width:45px" type="number" value="@item.SoLuong" onchange="myFunction(@item.Id)" class="soluong">
                     </td>
                     <td class="thanhtien">@(item.sanPhamChiTiet.GianBan*item.SoLuong)</td>
                     <td style="text-align:center">
@@ -29,8 +29,8 @@
             }
         </tbody>
     </table>
-    <div class="total payment"> <br />
-        <span id="tongtien">Tổng tiền :</span> <br>
+    <div class="total payment">
+        <span style="font-size:18px; font-weight:500;" id="tongtien">Tổng tiền : </span> <br>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-primary">Thanh Toán</button>
@@ -52,7 +52,7 @@
             for(let i=0;i<thanhtiens.length;i++){
                 tien+=parseInt(thanhtiens[i].innerHTML)
             }
-            document.getElementById("tongtien").innerHTML="Tổng tiền: "+tien;
+            document.getElementById("tongtien").innerHTML="Tổng tiền : "+tien;
             console.log(tien)
             }
     </script>

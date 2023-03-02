@@ -117,7 +117,21 @@ namespace UI.Controllers
             }
             return NotFound();
         }
-        public IActionResult Register()
+
+        //public async Task<IActionResult> Thanhtoan()
+        //{
+        //    var hd = new HoaDon()
+        //    {
+        //        HinhThucThanhToan = "Tien mat",
+        //        GhiChu = "nothiung",
+        //        Id_diachi = 1,
+        //        GiaSP = 200001,
+        //        Id_spct = 3
+        //    };
+        //    using HttpClient client = _httpClientFactory.CreateClient();
+        //    using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/hoadons", hd);
+        //}
+            public IActionResult Register()
         {
             return View();
         }
