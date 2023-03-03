@@ -25,7 +25,9 @@ namespace DAL.Data
             modelBuilder.Entity<TrangThai>().HasOne(p => p.hoaDon).WithMany(n => n.trangThais).HasForeignKey(p => p.Id_hoadon);
             modelBuilder.Entity<TrangThai>().HasOne(p => p.quanLi).WithMany(n => n.trangThais).HasForeignKey(p => p.Id_quanli);
             modelBuilder.Entity<QuanLi>().HasOne(p => p.phanQuyen).WithMany(n => n.quanLis).HasForeignKey(p => p.Id_phanquyen);
-            modelBuilder.Entity<HoaDon>().HasOne(p => p.sanPhamChiTiet).WithMany(n => n.hoaDons).HasForeignKey(p => p.Id_spct);
+            //modelBuilder.Entity<HoaDon>().HasOne(p => p.sanPhamChiTiet).WithMany(n => n.hoaDons).HasForeignKey(p => p.Id_spct);
+            modelBuilder.Entity<HoaDonChiTiet>().HasOne(p => p.hoaDon).WithMany(n => n.hoaDonChiTiets).HasForeignKey(p => p.Id_hd);
+            modelBuilder.Entity<HoaDonChiTiet>().HasOne(p => p.sanPhamChiTiet).WithMany(n => n.hoaDonChiTiets).HasForeignKey(p => p.Id_spct);
             modelBuilder.Entity<SanPhamChiTiet>().HasOne(p => p.sanPham).WithMany(n => n.sanPhamChiTiets).HasForeignKey(p => p.Id_SP);
             modelBuilder.Entity<SPCT_Mau>().HasKey(p => new { p.Id_mau, p.Id_spct });
             modelBuilder.Entity<SPCT_Mau>().HasOne(p => p.mau).WithMany(n => n.sPCT_Maus).HasForeignKey(p => p.Id_mau);
@@ -55,5 +57,6 @@ namespace DAL.Data
         public DbSet<GioHang> gioHangs { get; set; }
         public DbSet<GiamGiaHD> giamGiaHDs { get; set; }
         public DbSet<GiamGiaSP> giamGiaSPs { get; set; }
+        public DbSet<HoaDonChiTiet> hoaDonChiTiets { get; set; }
     }
 }

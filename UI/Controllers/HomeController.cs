@@ -180,13 +180,14 @@ namespace UI.Controllers
         {
             var thongtin = HttpContext.Session.GetString("email");
             ViewData["thongtin"] = thongtin;
-            string? httpClientName = _configuration["HttpClientName"];
-            using HttpClient client = _httpClientFactory.CreateClient(httpClientName ?? "");
-            using HttpResponseMessage response = await client.GetAsync("api/GioHangs");
+            var id_nguoidung = HttpContext.Session.GetString("idND");
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.GetAsync("api/GioHangs/");
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var list = JsonConvert.DeserializeObject<List<GioHang>>(jsonResponse) ;
+            var lists = JsonConvert.DeserializeObject<IEnumerable<GioHang>>(jsonResponse);
             response.EnsureSuccessStatusCode();
-            return View(list);
+            var giohangs = lists.Where(x => x.Id_nguoidung == int.Parse(id_nguoidung));
+            return View(giohangs);
         }
         public async Task<IActionResult> DeleteCart(int Id)
         {
