@@ -201,6 +201,10 @@ namespace UI.Controllers
             }
             return NotFound();
         }
+        public async Task<IActionResult> Hoadon()
+        {
+            return View();
+        }
         public IActionResult Banggia()
         {
             var thongtin = HttpContext.Session.GetString("email");

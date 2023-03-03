@@ -8,7 +8,7 @@
             <tr>
 
                 <th scope="col">Sản phẩm</th>
-                <th scope="col">Gia tiền</th>
+                <th scope="col">Giá tiền</th>
                 <th scope="col">Số lượng</th>
                 <th scope="col">Thành tiền</th>
 
@@ -20,7 +20,7 @@
                 <tr data-id="@item.Id">
                     <td>@item.sanPhamChiTiet.TenSP</td>
                     <td id="gia">@item.sanPhamChiTiet.GianBan</td>
-                    <td><input type="number" value="@item.SoLuong" onchange="myFunction(@item.Id)" class="soluong"></td>
+                    <td><input style="width:50px" type="number" value="@item.SoLuong" onchange="myFunction(@item.Id)" class="soluong"></td>
                     <td class="thanhtien">@(item.sanPhamChiTiet.GianBan*item.SoLuong)</td>
                     <td>
                         <a class="btn btn-danger" asp-action="DeleteCart" asp-route-id="@item.Id">Xoá</a>
@@ -35,6 +35,7 @@
     <div class="modal-footer">
         <a asp-controller="Home" asp-action="thanhToan" class="btn btn-primary">Thanh Toán</a>
     </div>
+    <a asp-controller="Home" asp-action="Index"><i class="fas fa-angle-left me-2"></i> Back to shopping</a>
     <script>
         function myFunction(id) {
             var row=document.querySelector("tr[data-id='" + id + "']")
