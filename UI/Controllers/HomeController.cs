@@ -163,7 +163,7 @@ namespace UI.Controllers
             var hd = new HoaDon()
             {
                 HinhThucThanhToan = "Tien mat",
-                GhiChu = "nothiung",
+                GhiChu = "nothing",
                 Id_diachi = 1,
                 hoaDonChiTiets = new List<HoaDonChiTiet>()
             };
@@ -219,7 +219,14 @@ namespace UI.Controllers
         }
         public async Task<IActionResult> Hoadon()
         {
-            return View();
+            var thongtin = HttpContext.Session.GetString("email");
+            ViewData["thongtin"] = thongtin;
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.GetAsync("api/HoaDons");
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var list = JsonConvert.DeserializeObject<IEnumerable<HoaDon>>(jsonResponse);
+            response.EnsureSuccessStatusCode();
+            return View(list);
         }
         public IActionResult Banggia()
         {
