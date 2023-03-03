@@ -30,17 +30,10 @@ namespace CSharp5.Controllers
         }
 
         // GET: api/GioHangs/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<GioHang>> GetGioHang(int id)
+        [HttpGet("getDelete")]
+        public async Task<ActionResult<IEnumerable<GioHang>>> GetGioHang()
         {
-            var gioHang = await _service.GetOneAsync(id);
-
-            if (gioHang == null)
-            {
-                return NotFound();
-            }
-
-            return gioHang;
+            return await _service.GetAllAsync();
         }
 
         // PUT: api/GioHangs/5
@@ -96,7 +89,12 @@ namespace CSharp5.Controllers
 
             return NoContent();
         }
-
+        [HttpPost("clear")]
+        public async Task<IActionResult> DeleteGioHangs(List<GioHang> gioHangs)
+        {
+            await _service.RemoveRangeAsync(gioHangs);
+            return NoContent();
+        }
         private bool GioHangExists(int id)
         {
             return _service.EntityExists(id);
