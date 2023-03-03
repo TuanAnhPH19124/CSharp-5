@@ -19,7 +19,7 @@ namespace DAL.Models
         public int? Id_GiamGia { get; set; }
         public GiamGiaSP giamGiaSP { get; set; }
 
-        public List<HoaDon> hoaDons { get; set; }
+        public List<HoaDonChiTiet> hoaDonChiTiets { get; set; }
 
         public List<HinhAnhSP> hinhAnhSPs { get; set; }
         public List<Size> Sizes { get; set; }
