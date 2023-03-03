@@ -182,7 +182,7 @@ namespace UI.Controllers
             response.EnsureSuccessStatusCode();
             using HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/giohangs/clear", gioHangs);
             responseMessage.EnsureSuccessStatusCode();
-            return Ok();
+            return RedirectToAction(nameof(Index));
         }
 
         public IActionResult LogOut()
@@ -228,12 +228,7 @@ namespace UI.Controllers
             response.EnsureSuccessStatusCode();
             return View(list);
         }
-        public IActionResult Banggia()
-        {
-            var thongtin = HttpContext.Session.GetString("email");
-            ViewData["thongtin"] = thongtin;
-            return View();
-        }
+        
         public async Task<IActionResult> GetAll()
         {
             return RedirectToAction(nameof(Sanpham));
