@@ -1,20 +1,21 @@
 ﻿using DAL.Data;
+using DAL.Data.Cart;
 using DAL.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 using System.Threading.Tasks;
 using UI.Models;
 using UI.ViewModels;
-using Microsoft.AspNetCore.Http;
-using DAL.IServices;
-using System.Linq;
-using System;
 
 namespace UI.Controllers
 {
@@ -25,14 +26,13 @@ namespace UI.Controllers
         private readonly IHttpClientFactory _httpClientFactory = null;
         private readonly IConfiguration _configuration = null;
 
-
         public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFactory, IConfiguration configuration)
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
             _configuration = configuration;
 
-        }     
+        }
         public async Task<IActionResult> Index()
         {
             var thongtin = HttpContext.Session.GetString("email");
@@ -42,9 +42,9 @@ namespace UI.Controllers
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var list = JsonConvert.DeserializeObject<List<SanPhamChiTiet>>(jsonResponse);
             response.EnsureSuccessStatusCode();
-            return View(list); 
+            return View(list);
         }
-        
+
         public IActionResult Privacy()
         {
             return View();
@@ -85,7 +85,7 @@ namespace UI.Controllers
         {
             var thongtin = HttpContext.Session.GetString("email");
             ViewData["thongtin"] = thongtin;
-            var giohang = new GioHang() { SoLuong=1, Id_spct=id, Id_nguoidung=Convert.ToInt32(HttpContext.Session.GetString("idND")), IdGioHang= Guid.Parse(HttpContext.Session.GetString("idGH")) };
+            var giohang = new GioHang() { SoLuong = 1, Id_spct = id, Id_nguoidung = Convert.ToInt32(HttpContext.Session.GetString("idND")), IdGioHang = Guid.Parse(HttpContext.Session.GetString("idGH")) };
             using HttpClient client = _httpClientFactory.CreateClient();
             using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Giohangs", giohang);
             if (response.IsSuccessStatusCode)
@@ -109,7 +109,7 @@ namespace UI.Controllers
         {
             var thongtin = HttpContext.Session.GetString("email");
             ViewData["thongtin"] = thongtin;
-            using HttpClient client = _httpClientFactory.CreateClient();   
+            using HttpClient client = _httpClientFactory.CreateClient();
             using HttpResponseMessage response = await client.DeleteAsync($"https://localhost:44308/api/SanPhamChiTiets/{Id}");
             if (response.IsSuccessStatusCode)
             {
@@ -126,14 +126,14 @@ namespace UI.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Login([Bind()]AccountVM vM)
+        public async Task<IActionResult> Login([Bind()] AccountVM vM)
         {
             using HttpClient client = _httpClientFactory.CreateClient();
             using HttpResponseMessage response = await client.GetAsync("https://localhost:44308/api/NguoiDungs");
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var list = JsonConvert.DeserializeObject<IEnumerable<NguoiDung>>(jsonResponse);
             var user = list.FirstOrDefault(ng => ng.Email == vM.Email && ng.Password == vM.Pass);
-            if (user!=null)
+            if (user != null)
             {
                 var gh = user.gioHangs.Count();
 
@@ -149,23 +149,39 @@ namespace UI.Controllers
                 }
             }
             HttpContext.Session.SetString("email", user.Email);
-            HttpContext.Session.SetString("idND",user.Id.ToString());
+            HttpContext.Session.SetString("idND", user.Id.ToString());
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> thanhToan()
         {
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage responseGH = await client.GetAsync("api/giohangs/getDelete");
+            responseGH.EnsureSuccessStatusCode();
+            var jsonResponse = await responseGH.Content.ReadAsStringAsync();
+            var gioHangs = JsonConvert.DeserializeObject<IEnumerable<GioHang>>(jsonResponse).Where(p => p.Id_nguoidung == int.Parse(HttpContext.Session.GetString("idND")));
             var hd = new HoaDon()
             {
                 HinhThucThanhToan = "Tien mat",
                 GhiChu = "nothiung",
                 Id_diachi = 1,
-                GiaSP = 200001,
-                Id_spct = 3
+                hoaDonChiTiets = new List<HoaDonChiTiet>()
             };
-            using HttpClient client = _httpClientFactory.CreateClient();
+            var hdct = new List<HoaDonChiTiet>();
+            foreach (var item in ShoppingCart.gioHangs)
+            {
+                hdct.Add(new HoaDonChiTiet()
+                {
+                    Id_spct = item.Id_spct,
+                    SoLuong = item.SoLuong,
+                    Price = item.sanPhamChiTiet.GianBan,
+                });
+            }
+            hd.hoaDonChiTiets.AddRange(hdct);
             using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/hoadons", hd);
             response.EnsureSuccessStatusCode();
+            using HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/giohangs/clear", gioHangs);
+            responseMessage.EnsureSuccessStatusCode();
             return Ok();
         }
 
@@ -186,8 +202,8 @@ namespace UI.Controllers
             var jsonResponse = await response.Content.ReadAsStringAsync();
             var lists = JsonConvert.DeserializeObject<IEnumerable<GioHang>>(jsonResponse);
             response.EnsureSuccessStatusCode();
-            var giohangs = lists.Where(x => x.Id_nguoidung == int.Parse(id_nguoidung));
-            return View(giohangs);
+            ShoppingCart.gioHangs = lists.Where(x => x.Id_nguoidung == int.Parse(id_nguoidung));
+            return View(ShoppingCart.gioHangs);
         }
         public async Task<IActionResult> DeleteCart(int Id)
         {
@@ -216,6 +232,6 @@ namespace UI.Controllers
             return RedirectToAction(nameof(Sanpham));
         }
 
-        
+
     }
 }

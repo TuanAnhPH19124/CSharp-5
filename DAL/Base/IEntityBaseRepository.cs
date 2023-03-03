@@ -15,8 +15,10 @@ namespace DAL.Base
         Task<ActionResult<IEnumerable<T>>> GetAll2Async(IQueryable<T> query);
         Task<ActionResult<T>> GetOneAsync(int id);
         Task<ActionResult<IEnumerable<T>>> AddAsync(T entity);
+        Task<ActionResult> AddRangeAsync(List<T> entities);
         Task<ActionResult<IEnumerable<T>>> UpdateAsync(T entity);
         Task RemoveAsync(int id);
+        Task RemoveRangeAsync(List<T> entities);
         bool EntityExists(int id);
         IQueryable<T> GetFirstOrDefault(
                                           Expression<Func<T, bool>> predicate = null,

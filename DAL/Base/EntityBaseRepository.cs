@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,13 @@ namespace DAL.Base
             await _contexts.SaveChangesAsync();
             return await _contexts.Set<T>().ToListAsync();
 
+        }
+
+        public async Task<ActionResult> AddRangeAsync(List<T> entities)
+        {
+            await _contexts.Set<T>().AddRangeAsync(entities);
+            await _contexts.SaveChangesAsync();
+            return new OkResult();
         }
 
         public bool EntityExists(int id)
@@ -93,6 +101,12 @@ namespace DAL.Base
             entityEntry.State = EntityState.Deleted;
             await _contexts.SaveChangesAsync();
 
+        }
+
+        public async Task RemoveRangeAsync(List<T> entities)
+        {
+            _contexts.Set<T>().RemoveRange(entities);
+            await _contexts.SaveChangesAsync(); 
         }
 
         public async Task<ActionResult<IEnumerable<T>>> UpdateAsync(T entity)
