@@ -153,6 +153,21 @@ namespace UI.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> thanhToan()
+        {
+            var hd = new HoaDon()
+            {
+                HinhThucThanhToan = "Tien mat",
+                GhiChu = "nothiung",
+                Id_diachi = 1,
+                GiaSP = 200001,
+                Id_spct = 3
+            };
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/hoadons", hd);
+            response.EnsureSuccessStatusCode();
+            return Ok();
+        }
 
         public IActionResult LogOut()
         {
@@ -165,13 +180,14 @@ namespace UI.Controllers
         {
             var thongtin = HttpContext.Session.GetString("email");
             ViewData["thongtin"] = thongtin;
-            string? httpClientName = _configuration["HttpClientName"];
-            using HttpClient client = _httpClientFactory.CreateClient(httpClientName ?? "");
-            using HttpResponseMessage response = await client.GetAsync("api/GioHangs");
+            var id_nguoidung = HttpContext.Session.GetString("idND");
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage response = await client.GetAsync("api/GioHangs/");
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var list = JsonConvert.DeserializeObject<List<GioHang>>(jsonResponse) ;
+            var lists = JsonConvert.DeserializeObject<IEnumerable<GioHang>>(jsonResponse);
             response.EnsureSuccessStatusCode();
-            return View(list);
+            var giohangs = lists.Where(x => x.Id_nguoidung == int.Parse(id_nguoidung));
+            return View(giohangs);
         }
         public async Task<IActionResult> DeleteCart(int Id)
         {
@@ -195,5 +211,7 @@ namespace UI.Controllers
         {
             return RedirectToAction(nameof(Sanpham));
         }
+
+        
     }
 }
