@@ -1,4 +1,5 @@
-﻿<br />
+﻿@model IEnumerable<HoaDon>
+<br />
 <section>
     <nav>
         <div class="container">
@@ -12,16 +13,16 @@
                                 <i class="far fa-building text-danger fa-6x float-start"></i>
                             </div>
                         </div>
-
+                        @foreach(var item in Model){
                         <div class="row">
                             <div class="col-xl-12">
                                 <ul class="list-unstyled float-end">
                                     <li style="font-size: 30px; color: red;">Fpoly PET</li> <br />
-                                    <li>Đ/c : Fpt Polytechnic,Hà Nội</li>
-                                    <li>Khách hàng : Customer</li>
+                                    <li>Địa chỉ : @item.diaChi.diachi</li>
+                                    <li>Khách hàng : @item.diaChi.nguoiDung.Ten</li>
                                     <li>Thu ngân : Admin</li>
-                                    <li>Ngày mua hàng : </li>
-                                    <li>Ghi chú : ....</li> 
+                                    <li>Ngày mua hàng : @item.NgayThanhToan</li>
+                                    <li>Ghi chú : @item.GhiChu</li> 
                                 </ul>
                             </div>
                         </div>
@@ -41,56 +42,30 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Sữa bột cho mèo</td>
-                                        <td>1</td>
-                                        <td><i class="fas fa-dollar-sign"></i> 100,000đ</td>
-                                        <td><i class="fas fa-dollar-sign"></i> 100,000đ</td>
+                                    @foreach (var item1 in item.hoaDonChiTiets)
+                                    {
+                                     <tr>
+                                        <td>@item1.sanPhamChiTiet.TenSP</td>
+                                        <td>@item1.SoLuong</td>
+                                        <td><i class="fas fa-dollar-sign"></i> @item1.Price</td>
+                                        <td><i class="fas fa-dollar-sign"></i> @(item1.SoLuong*item1.Price)</td>
                                     </tr>
-                                    <tr>
-                                        <td>Đồ chơi cho chó</td>
-                                        <td>1</td>
-                                        <td><i class="fas fa-dollar-sign"></i> 200,000đ</td>
-                                        <td><i class="fas fa-dollar-sign"></i> 200,000đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Dung dịch vệ sinh</td>
-                                        <td>1</td>
-                                        <td><i class="fas fa-dollar-sign"></i> 300,000đ</td>
-                                        <td><i class="fas fa-dollar-sign"></i> 300,000đ</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Thức ăn cho chim</td>
-                                        <td>1</td>
-                                        <td><i class="fas fa-dollar-sign"></i> 400,000đ</td>
-                                        <td><i class="fas fa-dollar-sign"></i> 400,000đ</td>
-                                    </tr>
+                                    }
                                 </tbody>
                             </table>
 
                         </div>
-                        <div class="row">
-                            <div class="col-xl-8">
-                                <ul class="list-unstyled float-end me-0">
-                                    <li>
-                                        <span class="me-3 float-start" >Tổng tiền :</span><i class="fas fa-dollar-sign"></i> 100000
-                                    </li>
-                                    <li> <span class="me-5"> Giảm giá :</span><i class="fas fa-dollar-sign"></i> 500</li>
 
-                                </ul>
-                            </div>
-                        </div>
                         <hr>
                         <div class="row">
                             <div class="col-xl-8" style="margin-left:30px">
                                 <p class="float-end"
                                    style="font-size: 30px; color: red; font-weight: 300;font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
-                                    Tổng tiền phải trả :
-                                    <span><i class="fas fa-dollar-sign"></i> 500</span>
+                                    Tổng tiền phải trả :  <span style="color:red">@item.hoaDonChiTiets.Select(a=>a.Price*a.SoLuong).Sum()</span>
                                 </p>
                             </div>
                         </div>
-
+                        }
                         <div class="">
                             <p style="text-align:center">Xin cảm ơn và hẹn gặp lại !</p>
                         </div>

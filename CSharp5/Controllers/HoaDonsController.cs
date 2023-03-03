@@ -22,7 +22,7 @@ namespace CSharp5.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<HoaDon>>> GethoaDons()
         {
-            var query = _service.GetFirstOrDefault(include: x => x.Include(a => a.hoaDonChiTiets));
+            var query = _service.GetFirstOrDefault(include: x => x.Include(a => a.hoaDonChiTiets).ThenInclude(a=>a.sanPhamChiTiet).Include(a=>a.diaChi).ThenInclude(a=>a.nguoiDung));
             return await _service.GetAll2Async(query);
         }
 
