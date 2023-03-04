@@ -20,7 +20,7 @@
                 <tr data-id="@item.Id">
                     <td>@item.sanPhamChiTiet.TenSP</td>
                     <td id="gia">@item.sanPhamChiTiet.GianBan</td>
-                    <td><input style="width:50px" type="number" value="@item.SoLuong" onchange="myFunction(@item.Id)" class="soluong"></td>
+                    <td><input style="width:50px" type="number" value="@item.SoLuong" onchange="myFunction(@item.Id, @item.Id_spct,@item.Id_nguoidung, '@item.IdGioHang' )" class="soluong"></td>
                     <td class="thanhtien">@(item.sanPhamChiTiet.GianBan*item.SoLuong)</td>
                     <td>
                         <a class="btn btn-danger" asp-action="DeleteCart" asp-route-id="@item.Id">Xoá</a>
@@ -30,30 +30,54 @@
         </tbody>
     </table>
     <div class="total payment">
-        <span id="tongtien">Tổng tiền:</span> <br>
+        <span id="tongtien">Tổng tiền: @Model.Select(a => a.sanPhamChiTiet.GianBan * a.SoLuong).Sum()</span> <br>
     </div>
     <div class="modal-footer">
         <a asp-controller="Home" asp-action="thanhToan" class="btn btn-primary">Thanh Toán</a>
     </div>
     <a asp-controller="Home" asp-action="Index"><i class="fas fa-angle-left me-2"></i> Back to shopping</a>
-    <script>
-        function myFunction(id) {
-            var row=document.querySelector("tr[data-id='" + id + "']")
-            var gia=row.querySelector("td:nth-child(2)").innerHTML
-            var soluong=row.querySelector("td:nth-child(3)");
-            var sl = soluong.querySelector("input:nth-child(1)");
+ 
 
-            if(sl.value<0){
-                sl.value=0;
-            }
-            row.querySelector("td:nth-child(4)").innerHTML=gia*sl.value;
-            var thanhtiens = document.getElementsByClassName("thanhtien");
-            var tien=0;
-            for(let i=0;i<thanhtiens.length;i++){
-                tien+=parseInt(thanhtiens[i].innerHTML)
-            }
-            document.getElementById("tongtien").innerHTML="Tổng tiền: "+tien;
-            console.log(tien)
-            }
-    </script>
+    
 </div>
+
+
+<script>
+    function myFunction(id, idspct, idng, idgh) {
+        var row = document.querySelector("tr[data-id='" + id + "']")
+        var gia = row.querySelector("td:nth-child(2)").innerHTML
+        var soluong = row.querySelector("td:nth-child(3)");
+        var sl = soluong.querySelector("input:nth-child(1)");
+
+        if (sl.value < 0) {
+            sl.value = 0;
+        }
+        row.querySelector("td:nth-child(4)").innerHTML = gia * sl.value;
+        var thanhtiens = document.getElementsByClassName("thanhtien");
+        var tien = 0;
+        for (let i = 0; i < thanhtiens.length; i++) {
+            tien += parseInt(thanhtiens[i].innerHTML)
+        }
+        document.getElementById("tongtien").innerHTML = "Tổng tiền: " + tien;
+        console.log(id)
+        console.log(idspct)
+        console.log(sl.value)
+        console.log(idng)
+        console.log(idgh.toString())
+
+
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/Home/vl/" + id);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({
+            "id": id,
+            "soLuong": sl.value,
+            "id_spct": idspct,
+            "idGioHang": idgh.replace(/'/g, "\""),
+            "id_nguoidung": idng
+        }));
+
+    }
+
+</script>

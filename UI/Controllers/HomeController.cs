@@ -85,7 +85,7 @@ namespace UI.Controllers
         {
             var thongtin = HttpContext.Session.GetString("email");
             ViewData["thongtin"] = thongtin;
-            var giohang = new GioHang() { SoLuong = 1, Id_spct = id, Id_nguoidung = Convert.ToInt32(HttpContext.Session.GetString("idND")), IdGioHang = Guid.Parse(HttpContext.Session.GetString("idGH")) };
+            var giohang = new GioHang() { SoLuong = 1, Id_spct = id, Id_nguoidung = Convert.ToInt32(HttpContext.Session.GetString("idND")), IdGioHang = HttpContext.Session.GetString("idGH") };
             using HttpClient client = _httpClientFactory.CreateClient();
             using HttpResponseMessage response = await client.PostAsJsonAsync("https://localhost:44308/api/Giohangs", giohang);
             if (response.IsSuccessStatusCode)
@@ -229,11 +229,19 @@ namespace UI.Controllers
             return View(list);
         }
         
-        public async Task<IActionResult> GetAll()
+        public IActionResult GetAll()
         {
             return RedirectToAction(nameof(Sanpham));
         }
 
-
+        [HttpPost]
+        [Route("Home/vl/{id}")]
+        public async Task<IActionResult> UpdateGioHang(int id, [FromBody] GioHang gioHang)
+        {
+            using HttpClient client = _httpClientFactory.CreateClient();
+            using HttpResponseMessage responseMessage = await client.PutAsJsonAsync($"api/GioHangs/{id}", gioHang);
+            responseMessage.EnsureSuccessStatusCode();
+            return NoContent();
+        }
     }
 }
