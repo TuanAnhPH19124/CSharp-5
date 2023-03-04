@@ -8,7 +8,7 @@ namespace DAL.Models
         public int Id { get; set; }
         public int SoLuong { get; set; }
         public int Id_spct { get; set; }
-        public Guid IdGioHang { get; set; }
+        public string IdGioHang { get; set; }
         public SanPhamChiTiet sanPhamChiTiet { get; set; }
         public int Id_nguoidung { get; set; }
         public NguoiDung nguoiDung { get; set; }
